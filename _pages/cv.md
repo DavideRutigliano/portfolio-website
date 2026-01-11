@@ -9,7 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-<a href="/files/Davide_Rutigliano_Resume.pdf" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
+<a href="{{ '/files/Davide_Rutigliano_Resume.pdf' | relative_url }}" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
 
 ---
 
