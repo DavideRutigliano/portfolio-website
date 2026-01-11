@@ -2,10 +2,10 @@
 
 main:
   - title: "Portfolio"
-    url: portfolio-website/portfolio/
+    url: portfolio/
         
   - title: "Blog"
-    url: portfolio-website/year-archive/
+    url: year-archive/
     
   - title: "CV"
-    url: portfolio-website/cv/
+    url: cv/
