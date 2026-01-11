@@ -14,7 +14,7 @@ title_separator          : "-"
 name                     : &name "Davide Rutigliano"
 description              : &description "Senior Platform Engineer | Cloud & Kubernetes Expert"
 url                      : "https://daviderutigliano.github.io"
-baseurl                  : "/portfolio" # the subpath of your site, e.g. "/blog"
+baseurl                  : "/portfolio-website" # the subpath of your site, e.g. "/blog"
 repository               : "DavideRutigliano/portfolio-website"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
