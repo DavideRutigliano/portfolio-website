@@ -43,6 +43,6 @@ I specialize in building internal platforms and developer tools that scale. My w
 
 ## Let's Connect
 
-I'm always interested in discussing platform engineering, cloud architecture, and innovative solutions. Check out my [portfolio](/portfolio/) for featured projects, or [view my full CV](/cv/).
+I'm always interested in discussing platform engineering, cloud architecture, and innovative solutions. Check out my [portfolio](portfolio/) for featured projects, or [view my full CV](cv/).
 
 📧 [davide.ruti@gmail.com](mailto:davide.ruti@gmail.com) · [GitHub](https://github.com/DavideRutigliano) · [LinkedIn](https://www.linkedin.com/in/davide-rutigliano/)
