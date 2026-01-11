@@ -1,0 +1,126 @@
+/* Custom Fancy Styles */
+
+:root {
+  --primary-color: #0066cc;
+  --secondary-color: #00a8a8;
+  --accent-color: #ff9900;
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  --card-hover-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism sidebar */
+.sidebar {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.author__avatar img {
+  border-radius: 50%;
+  border: 4px solid white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: var(--transition);
+}
+
+.author__avatar img:hover {
+  transform: scale(1.05);
+}
+
+/* Portfolio Cards */
+.archive__item {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  border: 1px solid #eee;
+}
+
+.archive__item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.archive__item-title {
+  color: var(--primary-color) !important;
+  margin-top: 0 !important;
+}
+
+/* Buttons */
+.btn--primary {
+  background-color: var(--primary-color) !important;
+  border-radius: 30px !important;
+  padding: 12px 25px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: var(--transition) !important;
+  box-shadow: 0 4px 10px rgba(0,102,204,0.3) !important;
+}
+
+.btn--primary:hover {
+  background-color: #0052a3 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,102,204,0.4) !important;
+}
+
+/* Navigation */
+.masthead {
+  border-bottom: 1px solid #eee;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.greedy-nav a {
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.greedy-nav a:hover {
+  color: var(--primary-color) !important;
+}
+
+/* Tech Badges on Homepage */
+.tech-badge {
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0 5px 10px 0;
+  background: #f0f4f8;
+  color: #334e68;
+  border: 1px solid #d9e2ec;
+  transition: var(--transition);
+}
+
+.tech-badge:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Section Headings */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+/* Small adjustments to avoid overlapping */
+@media (max-width: 800px) {
+  .sidebar {
+    margin-bottom: 2em;
+  }
+}

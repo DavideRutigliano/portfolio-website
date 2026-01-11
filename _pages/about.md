@@ -23,18 +23,18 @@ I specialize in building internal platforms and developer tools that scale. My w
 ## Technical Expertise
 
 <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0;">
-  <span style="background: #326ce5; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Kubernetes</span>
-  <span style="background: #FF9900; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">AWS</span>
-  <span style="background: #4285F4; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">GCP</span>
-  <span style="background: #0089D6; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Azure</span>
-  <span style="background: #00ADD8; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Go</span>
-  <span style="background: #3776AB; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Python</span>
-  <span style="background: #E95420; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Terraform</span>
-  <span style="background: #764ABC; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Helm</span>
-  <span style="background: #E6522C; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Prometheus</span>
-  <span style="background: #F46800; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Grafana</span>
-  <span style="background: #7B42BC; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">ArgoCD</span>
-  <span style="background: #2496ED; color: white; padding: 4px 12px; border-radius: 4px; font-size: 14px;">Docker</span>
+  <span class="tech-badge">Kubernetes</span>
+  <span class="tech-badge">AWS</span>
+  <span class="tech-badge">GCP</span>
+  <span class="tech-badge">Azure</span>
+  <span class="tech-badge">Go</span>
+  <span class="tech-badge">Python</span>
+  <span class="tech-badge">Terraform</span>
+  <span class="tech-badge">Helm</span>
+  <span class="tech-badge">Prometheus</span>
+  <span class="tech-badge">Grafana</span>
+  <span class="tech-badge">ArgoCD</span>
+  <span class="tech-badge">Docker</span>
 </div>
 
 **Cloud/Infra:** GCP, AWS, Azure, Networking, CDN, HPC (GPU), Databases, Kubernetes, Docker, Helm, Observability
