@@ -20,26 +20,131 @@ I specialize in building internal platforms and developer tools that scale. My w
 - 🔄 **Designed VM migration orchestration** with a Kubernetes operator enabling 100+ VMs migration from KVM to Harvester
 - 📊 **Architected federated observability** migration to SUSE Observability (StackState), cutting troubleshooting time by 25%
 
-## Technical Expertise
+## 🛠 Skills
 
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0;">
-  <span class="tech-badge">Kubernetes</span>
-  <span class="tech-badge">AWS</span>
-  <span class="tech-badge">GCP</span>
-  <span class="tech-badge">Azure</span>
-  <span class="tech-badge">Go</span>
-  <span class="tech-badge">Python</span>
-  <span class="tech-badge">Terraform</span>
-  <span class="tech-badge">Helm</span>
-  <span class="tech-badge">Prometheus</span>
-  <span class="tech-badge">Grafana</span>
-  <span class="tech-badge">ArgoCD</span>
-  <span class="tech-badge">Docker</span>
+<h2 align="left">Cloud Infra & Platform</h2>
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="40" alt="docker logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" height="40" alt="kubernetes logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/k3s/k3s-original.svg" height="40" alt="k3s logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rancher/rancher-original.svg" height="40" alt="rancher logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/harvester/harvester-original.svg" height="40" alt="harvester logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openshift/openshift-original.svg" height="40" alt="openshift logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" height="40" alt="git logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" height="40" alt="gitlab logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=jenkins" height="40" alt="jenkins logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/githubactions/2088FF" height="40" alt="githubactions logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/argocd/argocd-original.svg" height="40" alt="argocd logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/flux" height="40" alt="flux logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/spinnaker" height="40" alt="spinnaker logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" height="40" alt="terraform logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=ansible" height="40" alt="ansible logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/saltstack/saltstack-original.svg" height="40" alt="saltstack logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=aws" height="40" alt="amazonwebservices logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" height="40" alt="googlecloud logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" height="40" alt="azure logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=prometheus" height="40" alt="prometheus logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" height="40" alt="grafana logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/openpolicyagent" height="40" alt="opa logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/nvidia/76B900" height="40" alt="nvidia logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=dcgm" height="40" alt="dcgm logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=kai" height="40" alt="kai scheduler logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/netapp" height="40" alt="netapp logo" />
 </div>
 
-**Cloud/Infra:** GCP, AWS, Azure, Networking, CDN, HPC (GPU), Databases, Kubernetes, Docker, Helm, Observability
+<h2 align="left">Backend & Design</h2>
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="40" alt="python logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/go/00ADD8" height="40" alt="go logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-plain.svg" height="40" alt="rust logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" height="40" alt="java logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/scala/DC322F" height="40" alt="scala logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/postgresql/4169E1" height="40" alt="postgresql logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/mysql/4479A1" height="40" alt="mysql logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/apachecassandra/1287B1" height="40" alt="apachecassandra logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=redis" height="40" alt="redis logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/neo4j/neo4j-original.svg" height="40" alt="neo4j logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/minio" height="40" alt="minio logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/apachezookeeper" height="40" alt="zookeeper logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/nginx/009639" height="40" alt="nginx logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/natsdotio" height="40" alt="nats logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/apachekafka/231F20" height="40" alt="apachekafka logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/graphql/E10098" height="40" alt="graphql logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=flask" height="40" alt="flask logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/backstage" height="40" alt="backstage logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=md" height="40" alt="markdown logo" />
+</div>
 
-**SRE/DevOps:** Monitoring, Alerting, Incident Response, On-Call, Root Cause Analysis, GitOps, IaC, CI/CD
+<h2 align="left">Machine Learning & Data Science</h2>
+<div align="left">
+  <img src="https://skillicons.dev/icons?i=tensorflow" height="40" alt="tensorflow logo" />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=pytorch" height="40" alt="pytorch logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg" height="40" alt="pandas logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/numpy/013243" height="40" alt="numpy logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/opencv/5C3EE8" height="40" alt="opencv logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg" height="40" alt="plotly logo" />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/anaconda/anaconda-original.svg" height="40" alt="anaconda logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/jupyter/F37626" height="40" alt="jupyter logo" />
+</div>
+
+<h2 align="left">Generative AI & MCP</h2>
+<div align="left">
+  <img src="https://cdn.simpleicons.org/openai" height="40" alt="openai logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/anthropic" height="40" alt="anthropic logo" />
+  <img width="12" />
+  <img src="https://cdn.simpleicons.org/huggingface" height="40" alt="huggingface logo" />
+</div>
 
 ## Let's Connect
 

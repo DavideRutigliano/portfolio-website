@@ -9,8 +9,6 @@ redirect_from:
 
 {% include base_path %}
 
-<a href="{{ '/files/Davide_Rutigliano_Resume.pdf' | relative_url }}" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
-
 ---
 
 ## Experience
@@ -79,3 +77,7 @@ GCP, AWS, Azure, Storage, Networking, CDN, HPC (GPU), Databases, Kubernetes, Doc
 
 ### SRE & DevOps
 Monitoring, Alerting, Incident Response, On-Call, Root Cause Analysis (RCA), GitOps, IaC, CI/CD, Go, Python
+
+---
+
+<a href="{{ '/files/Davide_Rutigliano_Resume.pdf' | relative_url }}" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
