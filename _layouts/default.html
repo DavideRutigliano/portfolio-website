@@ -5,27 +5,87 @@ layout: compress
 {% include base_path %}
 
 <!doctype html>
-<html lang="{{ site.locale | slice: 0,2 }}" class="no-js"{% if site.site_theme == "dark" %} data-theme="dark"{% endif %}>
-  <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+<html lang="{{ site.locale | slice: 0,2 }}" class="no-js" {% if site.site_theme=="dark" %} data-theme="dark" {% endif
+  %}>
 
-  <body>
+<head>
+  {% include head.html %}
+  {% include head/custom.html %}
+</head>
 
-    {% include browser-upgrade.html %}
-    {% include masthead.html %}
+<body>
 
-    {{ content }}
+  {% include browser-upgrade.html %}
 
-    <div class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include footer.html %}
-      </footer>
+  <div class="terminal-window">
+    <div class="terminal-header">
+      <div class="buttons">
+        <span class="btn red"></span>
+        <span class="btn yellow"></span>
+        <span class="btn green"></span>
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
+          <i id="theme-icon" class="fas fa-sun"></i>
+        </button>
+      </div>
+      <div class="title">davide — session — 120x40</div>
+      <div class="tabs">
+        <a href="{{ '/' | relative_url }}" class="tab {% if page.url == '/' %}active{% endif %}">[ HOME ]</a>
+        <a href="{{ '/portfolio/' | relative_url }}"
+          class="tab {% if page.url contains '/portfolio/' %}active{% endif %}">[ PROJECTS ]</a>
+        <a href="{{ '/blog/' | relative_url }}" class="tab {% if page.url contains '/blog/' %}active{% endif %}">[ BLOG
+          ]</a>
+        <a href="{{ '/cv/' | relative_url }}" class="tab {% if page.url contains '/cv/' %}active{% endif %}">[ CV ]</a>
+      </div>
     </div>
 
-    {% include scripts.html %}
+    <div class="terminal-body">
+      {{ content }}
+    </div>
+  </div>
 
-  </body>
+  {% include scripts.html %}
+
+  <script>
+  // Theme Toggle Logic
+  let setTheme = (theme) => {
+  const use_theme = theme || localStorage.getItem("theme") || "system";
+  if (use_theme === "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+  document.getElementById("theme-icon").classList.remove("fa-sun", "fa-desktop");
+  document.getElementById("theme-icon").classList.add("fa-moon");
+  } else if (use_theme === "light") {
+  document.documentElement.setAttribute("data-theme", "light");
+  document.getElementById("theme-icon").classList.remove("fa-moon", "fa-desktop");
+  document.getElementById("theme-icon").classList.add("fa-sun");
+  } else {
+  document.documentElement.removeAttribute("data-theme");
+  document.getElementById("theme-icon").classList.remove("fa-sun", "fa-moon");
+  document.getElementById("theme-icon").classList.add("fa-desktop");
+  }
+  localStorage.setItem("theme", use_theme);
+  };
+
+  const toggleTheme = () => {
+  const settings = ["light", "dark", "system"];
+  const current = localStorage.getItem("theme") || "system";
+  const nextIndex = (settings.indexOf(current) + 1) % settings.length;
+  setTheme(settings[nextIndex]);
+  };
+
+  // Initialize & Attach Listener
+  if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+  setTheme();
+  const btn = document.getElementById('theme-toggle-btn');
+  if(btn) btn.addEventListener('click', toggleTheme);
+  });
+  } else {
+  setTheme();
+  const btn = document.getElementById('theme-toggle-btn');
+  if(btn) btn.addEventListener('click', toggleTheme);
+  }
+  </script>
+
+</body>
+
 </html>

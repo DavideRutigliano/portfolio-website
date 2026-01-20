@@ -12,7 +12,7 @@ site_theme               : "default" # The available themes options are "default
 title                    : "Davide Rutigliano"
 title_separator          : "-"
 name                     : &name "Davide Rutigliano"
-description              : &description "Senior Platform Engineer | Cloud & Kubernetes Expert"
+description              : &description "Senior Platform Engineer | GPU Orchestration & AI Infrastructure"
 url                      : "https://daviderutigliano.github.io"
 baseurl                  : "/portfolio-website" # the subpath of your site, e.g. "/blog"
 repository               : "DavideRutigliano/portfolio-website"
@@ -25,7 +25,7 @@ author:
   avatar           : "profile.jpg"
   name             : "Davide Rutigliano"
   pronouns         : # example: "she/her"  
-  bio              : "Platform Engineer who designs missing abstractions and ships production-grade solutions."
+  bio              : "Platform Engineer specialized in GPU orchestration and AI infrastructure. I design the systems that power modern machine learning at scale."
   location         : "Italy"
   employer         : "SUSE"
   uri              : # URL
@@ -200,7 +200,7 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: true
       share: true
@@ -211,14 +211,14 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true
+      author_profile: false
   # _teaching
   - scope:
       path: ""
       type: teaching
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       share: true
       comments: true
   # _publications
@@ -227,7 +227,7 @@ defaults:
       type: publications
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       share: true
       comments: true
   # _portfolio
@@ -236,7 +236,7 @@ defaults:
       type: portfolio
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       share: true
       comment: true
   # _talks
@@ -245,7 +245,7 @@ defaults:
       type: talks
     values:
       layout: talk
-      author_profile: true
+      author_profile: false
       share: true
 
 

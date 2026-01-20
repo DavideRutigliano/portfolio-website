@@ -24,28 +24,34 @@ const browserPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 
 
 // Set the theme on page load or when explicitly called
 let setTheme = (theme) => {
-  const use_theme =
-    theme ||
-    localStorage.getItem("theme") ||
-    $("html").attr("data-theme") ||
-    browserPref;
+  const use_theme = theme || localStorage.getItem("theme") || "system";
 
   if (use_theme === "dark") {
     $("html").attr("data-theme", "dark");
-    $("#theme-icon").removeClass("fa-sun").addClass("fa-moon");
+    $("#theme-icon").removeClass("fa-sun fa-desktop").addClass("fa-moon");
   } else if (use_theme === "light") {
+    $("html").attr("data-theme", "light");
+    $("#theme-icon").removeClass("fa-moon fa-desktop").addClass("fa-sun");
+  } else {
+    // System mode: remove data-theme to fallback to CSS media queries
     $("html").removeAttr("data-theme");
-    $("#theme-icon").removeClass("fa-moon").addClass("fa-sun");
+    $("#theme-icon").removeClass("fa-sun fa-moon").addClass("fa-desktop");
   }
+  localStorage.setItem("theme", use_theme);
 };
+window.setTheme = setTheme;
 
-// Toggle the theme manually
+// Toggle the theme manually (cycles through Light -> Dark -> System)
 var toggleTheme = () => {
-  const current_theme = $("html").attr("data-theme");
-  const new_theme = current_theme === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", new_theme);
+  const settings = ["light", "dark", "system"];
+  const current = localStorage.getItem("theme") || "system";
+  const nextIndex = (settings.indexOf(current) + 1) % settings.length;
+  const new_theme = settings[nextIndex];
   setTheme(new_theme);
 };
+
+window.setTheme = setTheme;
+window.toggleTheme = toggleTheme;
 
 /* ==========================================================================
    Plotly integration script so that Markdown codeblocks will be rendered
@@ -93,11 +99,11 @@ $(document).ready(function () {
   // If the user hasn't chosen a theme, follow the OS preference
   setTheme();
   window.matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
-            setTheme(e.matches ? "dark" : "light");
-          }
-        });
+    .addEventListener("change", (e) => {
+      if (localStorage.getItem("theme") === "system") {
+        setTheme("system");
+      }
+    });
 
   // Enable the theme toggle
   $('#theme-toggle').on('click', toggleTheme);
@@ -114,7 +120,8 @@ $(document).ready(function () {
     if (didResize) {
       didResize = false;
       bumpIt();
-    }}, 250);
+    }
+  }, 250);
   var didResize = false;
   bumpIt();
 
