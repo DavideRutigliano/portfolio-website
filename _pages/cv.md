@@ -11,52 +11,56 @@ redirect_from:
 
 ---
 
+<a href="{{ '/files/Davide_Rutigliano_Resume__PE_.pdf' | relative_url }}" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
+
+## Summary
+
+Senior Platform Engineer building GPU-accelerated Kubernetes platforms for AI/HPC workloads. Specialized in inference observability (vLLM, TTFT, OpenTelemetry) and cluster lifecycle operations across cloud and bare-metal environments. Open-source contributor: Kubernetes, Kueue and KubeAI (vLLM operator).
+
 ## Experience
 
 ### SUSE
-**Senior Platform Engineer** · Remote, Italy · *2025 – Present*
+**Senior Platform Engineer** · Remote, Italy · *Dec 2025 – Present*
 
-- Own cross-cutting platform initiatives spanning Kubernetes, virtualization, observability, and asset governance, with responsibility for greenfield design, production readiness, and long-term maintainability
-- **Optimized platform efficiency achieving a 62% reduction in infrastructure costs** ($100K+ annual savings), by architecting and deploying Kubernetes Cluster Auto-scaling with Cluster API on multi-cloud (AWS, GCP, On-Prem) platform
-- **Architected and delivered the SUSE Observability MCP Server** from greenfield idea to MVP, embedding LLM-driven analysis directly into the alerting pipeline; recognized by senior leadership for production hardening and roadmap inclusion
-- **Designed and implemented a Kubernetes operator** to orchestrate large-scale virtual machine migrations from KVM to Harvester, enabling the migration of 100+ VMs; a transition that was not operationally feasible without custom orchestration
-- Provided technical direction, design reviews and mentorship for platform engineers, influencing architectural decisions across multiple domains and initiatives
+- **vLLM & GenAI Observability**: Engineered OpenTelemetry (OTel) connectors to instrument vLLM inference (Time-to-First-Token and related KPIs), enabling on-call triage for multi-tenant GPU inference platform.
+- **High-performance GPU Monitoring**: Engineered GPU observability solution for Kubernetes and KubeVirt clusters, enabling fine-grained monitoring of NVIDIA A2/H100 with MIG and vGPU segmentation, unlocking 40+% HPC efficiency.
+- **Cluster lifecycle & Autoscaling**: Optimized platform efficiency achieving a 62% reduction in infrastructure costs ($100K+ annual savings), by deploying Cluster Autoscaling with Cluster API on multi-cloud (AWS, GCP, On-Prem) platform.
+- **AI-driven Observability**: Architected and delivered the SUSE Observability MCP Server from greenfield idea to MVP, embedding LLM-driven analysis into the alerting pipeline; recognized by senior leadership for roadmap inclusion.
+- **Infrastructure Automation**: Designed and implemented a Kubernetes operator to orchestrate large-scale virtual machine migrations from KVM to Harvester, enabling the migration of 100+ VMs.
 
-**Platform Engineer** · Remote, Italy · *2025*
+**Platform Engineer** · Remote, Italy · *Jan 2025 – Dec 2025*
 
-- Designed and implemented a custom Kubernetes operator to synchronize VLAN and virtual machine assets into NetBox, establishing a single source of truth for infrastructure inventory
-- Engineered GPU observability solution for RKE2 and Harvester/KubeVirt clusters, enabling fine-grained monitoring of NVIDIA A2/H100 with MIG and vGPU segmentation
-- Architected migration from Prometheus/Grafana stack to SUSE Observability (StackState) for federated multi-cluster observability, cutting troubleshooting time by 25%
-- Led cloud architecture evolution across AWS, GCP, and Azure for enterprise migrations, aligning Cloud Landing Zone (CLZ) design with strategic requirements
+- **Infrastructure Governance**: Designed and implemented a custom Kubernetes operator to synchronize VLAN and virtual machine assets into NetBox, establishing a single source of truth for infrastructure inventory.
+- **Federated Observability**: Architected migration from Prometheus/Grafana stack to SUSE Observability (StackState) for federated multi-cluster observability, cutting troubleshooting time by 25%.
+- **Cloud Evolution**: Led cloud architecture evolution across AWS, GCP, and Azure for enterprise migrations, aligning Cloud Landing Zone (CLZ) design with strategic requirements, acting as advisor to internal customers.
 
-*Stack: Rancher, Harvester, Longhorn, Prometheus, Grafana, OpenTelemetry, CloudWatch, EKS, GKE, Kubernetes, Docker, Helm, Salt, CloudFormation, Terraform, Ansible, GitOps, Flux, ArgoCD, Fleet, Kubewarden, GPU, NetApp, S3, IAM, VPC, Go, Rust*
+*Stack: Kubernetes, Rancher, Cluster API, KubeVirt, GPU (NVIDIA MIG/vGPU), vLLM, OpenTelemetry, Prometheus, Grafana, Terraform, GitOps (ArgoCD/Flux), AWS/GCP/Azure*
 
 ---
 
 ### Ericsson
-**DevOps Engineer Team Lead** · Pagani, Italy · *2023 – 2024*
+**DevOps Engineer Team Lead** · Pagani, Italy · *Sep 2023 – Dec 2024*
 
-- Led team of 5 engineers in designing Internal Developer Portal (IDP) based on Spotify Backstage, improving developer efficiency by 25% through self-services
-- Evangelized portal usage and adoption of best practices
+- **Self-Service Platform**: Led team of 5 engineers in designing Internal Developer Portal (IDP) based on Spotify Backstage, improving developer efficiency by 25% through self-services. Evangelized portal usage and adoption of best practices.
 
-**DevOps Engineer** · *2022 – 2023*
+**DevOps Engineer** · *Jun 2022 – Sep 2023*
 
-- Engineered an ML-driven solution for automated Kubernetes microservice performance optimization, reducing engineering time required to fine-tune applications configuration from weeks to days
+- **ML-driven Optimization**: Engineered an ML-driven solution for automated Kubernetes microservice performance optimization, reducing the engineering time required to fine-tune applications configuration from weeks to days.
 
-**Cloud Engineer** · *2021 – 2022*
+**Cloud Engineer** · *Mar 2021 – Jun 2022*
 
-- Optimized Ericsson Licensing solution footprint by 25% deploying auto-scaling and fine-tuning resources configuration, leading to a throughput increase of 10%
+- **Resource Efficiency**: Optimized Ericsson Licensing solution footprint by 25% deploying auto-scaling and fine-tuning resources configuration, leading to a throughput increase of 10%.
 
-*Stack: Python, Go, Java, REST API, GraphQL, PostgreSQL, Cassandra, Minio (S3), Kafka, Zookeper, NATS, TDD, DDD, Event Driven (EDA), Kubernetes, Openshift, Docker, Helm, GitLab CI, Jenkins, Spinnaker, CICD, Gatekeeper (OPA), Backstage*
+*Stack: Kubernetes/OpenShift, Docker, Helm, Backstage, Gatekeeper (OPA), GitLab CI/Jenkins, Kafka, PostgreSQL/Cassandra, Go, Python, Java*
 
 ---
 
 ### Cisco
-**ML Engineer** · Vimercate, Italy · *2020 – 2021*
+**ML Engineer** · Vimercate, Italy · *Apr 2020 – Mar 2021*
 
-- Designed and implemented ML-based solution for optical devices troubleshooting, improving defect detection by a 2x factor
+- Designed and implemented ML-based solution for optical devices troubleshooting, improving defect detection by a 2x factor.
 
-*Stack: Python, Tensorflow, Computer Vision, Pandas, Plotly, Data Visualization*
+*Stack: Python, TensorFlow, Computer Vision*
 
 ---
 
@@ -72,12 +76,18 @@ redirect_from:
 
 ## Skills
 
-### Cloud & Infrastructure
-GCP, AWS, Azure, Storage, Networking, CDN, HPC (GPU), Databases, Kubernetes, Docker, Helm, Observability
+### AI & GPU Infra
+NVIDIA MIG/vGPU, GPU-Operator, LLM-Ops, vLLM, Kueue/Slurm, TensorFlow, Pytorch, Computer Vision
 
-### SRE & DevOps
-Monitoring, Alerting, Incident Response, On-Call, Root Cause Analysis (RCA), GitOps, IaC, CI/CD, Go, Python
+### Observability
+OpenTelemetry (OTel), Prometheus, Grafana, Alertmanager, StackState, Root Cause Analysis (RCA)
 
----
+### Reliability
+SLIs/SLOs, alerting strategy, runbooks, incident response, postmortems, capacity planning
 
-<a href="{{ '/files/Davide_Rutigliano_Resume.pdf' | relative_url }}" class="btn btn--primary" download>📄 Download Resume (PDF)</a>
+### Cloud Native
+Kubernetes, Helm, Docker, GitOps (ArgoCD, Flux), Terraform, GCP, AWS, Azure
+
+### Development
+Go, Python, Java, Rust, K8s Operators, Event-Driven Architecture, Linux
+
