@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I'm a **Senior Platform Engineer** at [SUSE](https://www.suse.com/), where I identify systemic infrastructure gaps, design missing abstractions, and ship production-grade solutions adopted across teams and environments.
+I'm a **Senior Platform Engineer** building GPU-accelerated Kubernetes platforms for AI/HPC workloads. Specialized in inference observability (vLLM, TTFT) and cluster lifecycle operations. Open-source contributor: Kubernetes, Kueue and KubeAI.
 
 ## What I Do
 
@@ -15,6 +15,8 @@ I specialize in building internal platforms and developer tools that scale. My w
 
 ### Recent Highlights
 
+- 🧠 **vLLM & GenAI Observability**: Engineered OpenTelemetry connectors to instrument vLLM inference (TTFT, KPIs), enabling on-call triage for multi-tenant GPU inference platform
+- ⚡ **High-performance GPU Monitoring**: Engineered GPU observability solution for Kubernetes/KubeVirt (NVIDIA MIG/vGPU), unlocking 40+% HPC efficiency
 - 🚀 **62% infrastructure cost reduction** ($100K+ annual savings) by architecting Kubernetes Cluster Auto-scaling with Cluster API across AWS, GCP, and on-prem
 - 🤖 **Built the SUSE Observability MCP Server** from idea to MVP, embedding LLM-driven analysis directly into the alerting pipeline — recognized by senior leadership for production hardening
 - 🔄 **Designed VM migration orchestration** with a Kubernetes operator enabling 100+ VMs migration from KVM to Harvester
@@ -22,77 +24,59 @@ I specialize in building internal platforms and developer tools that scale. My w
 
 ## 🛠 Skills
 
-<h2 align="left">Cloud Infra & Platform</h2>
+<h2 align="left">AI & GPU Infra</h2>
 <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-  <span class="tech-badge">Docker</span>
-  <span class="tech-badge">Kubernetes</span>
-  <span class="tech-badge">k3s</span>
-  <span class="tech-badge">Rancher</span>
-  <span class="tech-badge">Harvester</span>
-  <span class="tech-badge">OpenShift</span>
-  <span class="tech-badge">Git</span>
-  <span class="tech-badge">GitLab</span>
-  <span class="tech-badge">Jenkins</span>
-  <span class="tech-badge">GitHub Actions</span>
-  <span class="tech-badge">ArgoCD</span>
-  <span class="tech-badge">Flux</span>
-  <span class="tech-badge">Spinnaker</span>
-  <span class="tech-badge">Terraform</span>
-  <span class="tech-badge">Ansible</span>
-  <span class="tech-badge">SaltStack</span>
-  <span class="tech-badge">AWS</span>
-  <span class="tech-badge">GCP</span>
-  <span class="tech-badge">Azure</span>
+  <span class="tech-badge">NVIDIA MIG/vGPU</span>
+  <span class="tech-badge">GPU-Operator</span>
+  <span class="tech-badge">LLM-Ops</span>
+  <span class="tech-badge">vLLM</span>
+  <span class="tech-badge">Kueue/Slurm</span>
+  <span class="tech-badge">TensorFlow</span>
+  <span class="tech-badge">Pytorch</span>
+  <span class="tech-badge">Computer Vision</span>
+</div>
+
+<h2 align="left">Observability</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+  <span class="tech-badge">OpenTelemetry (OTel)</span>
   <span class="tech-badge">Prometheus</span>
   <span class="tech-badge">Grafana</span>
-  <span class="tech-badge">OPA</span>
-  <span class="tech-badge">NVIDIA</span>
-  <span class="tech-badge">DCGM</span>
-  <span class="tech-badge">Kai</span>
-  <span class="tech-badge">NetApp</span>
+  <span class="tech-badge">Alertmanager</span>
+  <span class="tech-badge">StackState</span>
+  <span class="tech-badge">Root Cause Analysis (RCA)</span>
 </div>
 
-<h2 align="left">Backend & Design</h2>
+<h2 align="left">Reliability</h2>
 <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-  <span class="tech-badge">Python</span>
+  <span class="tech-badge">SLIs/SLOs</span>
+  <span class="tech-badge">alerting strategy</span>
+  <span class="tech-badge">runbooks</span>
+  <span class="tech-badge">incident response</span>
+  <span class="tech-badge">postmortems</span>
+  <span class="tech-badge">capacity planning</span>
+</div>
+
+<h2 align="left">Cloud Native</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+  <span class="tech-badge">Kubernetes</span>
+  <span class="tech-badge">Helm</span>
+  <span class="tech-badge">Docker</span>
+  <span class="tech-badge">GitOps (ArgoCD, Flux)</span>
+  <span class="tech-badge">Terraform</span>
+  <span class="tech-badge">GCP</span>
+  <span class="tech-badge">AWS</span>
+  <span class="tech-badge">Azure</span>
+</div>
+
+<h2 align="left">Development</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
   <span class="tech-badge">Go</span>
-  <span class="tech-badge">Rust</span>
+  <span class="tech-badge">Python</span>
   <span class="tech-badge">Java</span>
-  <span class="tech-badge">Scala</span>
-  <span class="tech-badge">PostgreSQL</span>
-  <span class="tech-badge">MySQL</span>
-  <span class="tech-badge">Cassandra</span>
-  <span class="tech-badge">Redis</span>
-  <span class="tech-badge">Neo4j</span>
-  <span class="tech-badge">MinIO</span>
-  <span class="tech-badge">Zookeeper</span>
-  <span class="tech-badge">Nginx</span>
-  <span class="tech-badge">NATS</span>
-  <span class="tech-badge">Kafka</span>
-  <span class="tech-badge">GraphQL</span>
-  <span class="tech-badge">Flask</span>
-  <span class="tech-badge">Backstage</span>
-  <span class="tech-badge">Markdown</span>
-</div>
-
-<h2 align="left">Machine Learning & Data Science</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-  <span class="tech-badge">Tensorflow</span>
-  <span class="tech-badge">PyTorch</span>
-  <span class="tech-badge">Pandas</span>
-  <span class="tech-badge">Numpy</span>
-  <span class="tech-badge">OpenCV</span>
-  <span class="tech-badge">Plotly</span>
-  <span class="tech-badge">Anaconda</span>
-  <span class="tech-badge">Jupyter</span>
-</div>
-
-<h2 align="left">Generative AI & MCP</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
-  <span class="tech-badge">OpenAI</span>
-  <span class="tech-badge">Anthropic</span>
-  <span class="tech-badge">HuggingFace</span>
-  <span class="tech-badge">MCP</span>
+  <span class="tech-badge">Rust</span>
+  <span class="tech-badge">K8s Operators</span>
+  <span class="tech-badge">Event-Driven Architecture</span>
+  <span class="tech-badge">Linux</span>
 </div>
 
 ## Let's Connect
