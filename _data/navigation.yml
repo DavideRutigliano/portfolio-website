@@ -1,11 +1,20 @@
 # Navigation links for header
 
 main:
+  - title: "Welcome"
+    url: /
+    
   - title: "Portfolio"
     url: /portfolio/
         
   - title: "Blog"
     url: /blog/
+
+  - title: "Notes"
+    url: /notes/
+
+  - title: "Misc"
+    url: /misc/
     
   - title: "CV"
     url: /cv/
