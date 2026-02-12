@@ -6,15 +6,25 @@ main:
     
   - title: "Portfolio"
     url: /portfolio/
-        
+
   - title: "Blog"
     url: /blog/
 
   - title: "Notes"
     url: /notes/
 
-  - title: "Misc"
-    url: /misc/
-    
   - title: "CV"
     url: /cv/
+
+# Sidebar navigation for Notes
+notes_nav:
+  - title: "Categories"
+    children:
+      - title: "Cloud Native"
+        url: "/notes/#cloud-native"
+      - title: "GPU & AI Infrastructure"
+        url: "/notes/#gpu--ai-infrastructure"
+      - title: "Observability"
+        url: "/notes/#observability"
+      - title: "Programming"
+        url: "/notes/#programming"

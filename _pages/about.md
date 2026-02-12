@@ -11,11 +11,11 @@ I'm **Davide Rutigliano**, a Senior Platform Engineer building GPU-accelerated K
 
 ## What is this Site?
 
-This is my personal corner of the internet — a place to share my work, document what I learn, and connect with others in the field. Browse my [portfolio](/portfolio/) for featured projects, read my [blog](/blog/) for thoughts on platform engineering, or check out my [notes](/notes/) for quick technical references.
+This is my personal corner of the internet. A place to share my personal views, document what I learn, and connect with others in the field. Browse my [portfolio](/portfolio/) for featured projects, read my [blog](/blog/) for thoughts on platform engineering, or check out my [notes](/notes/) for quick technical references.
 
 ## What I Do
 
-I specialize in building internal platforms and developer tools that scale. My work spans **Kubernetes**, **virtualization**, **observability**, and **asset governance** — with a focus on greenfield design, production readiness, and long-term maintainability.
+I specialize in building internal platforms and developer tools that scale. My work spans **Kubernetes**, **virtualization**, **observability**, and **HPC/GPU infrastructure**, with a focus on production readiness, efficiency and cost optimization.
 
 ### Recent Highlights
 
@@ -86,5 +86,3 @@ I specialize in building internal platforms and developer tools that scale. My w
 ## Let's Connect
 
 I'm always interested in discussing platform engineering, cloud architecture, and innovative solutions. Check out my [portfolio](portfolio/) for featured projects, or [view my full CV](cv/).
-
-📧 [davide.ruti@gmail.com](mailto:davide.ruti@gmail.com) · [GitHub](https://github.com/DavideRutigliano) · [LinkedIn](https://www.linkedin.com/in/davide-rutigliano/)
