@@ -191,7 +191,7 @@ collections:
     output: true
     permalink: /:collection/:path/
   notes:
-    output: true
+    output: false
     permalink: /:collection/:path/
 
 

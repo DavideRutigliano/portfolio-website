@@ -22,8 +22,8 @@ notes_nav:
     children:
       - title: "Cloud Native"
         url: "/notes/#cloud-native"
-      - title: "GPU & AI Infrastructure"
-        url: "/notes/#gpu--ai-infrastructure"
+      - title: "GPU/HPC & AI Infrastructure"
+        url: "/notes/#gpuhpc--ai-infrastructure"
       - title: "Observability"
         url: "/notes/#observability"
       - title: "Programming"

@@ -174,3 +174,36 @@ html[data-theme="dark"] {
     width: 250px;
   }
 }
+
+/* Consolidated Notes Styling */
+.notes-category {
+  margin-bottom: 4em;
+
+  h2 {
+    margin-top: 2em;
+    margin-bottom: 1.5em;
+  }
+}
+
+.note-content {
+  margin-bottom: 2em;
+
+  /* Reset some internal margins for better flow in single page */
+  h1:first-child {
+    margin-top: 0;
+    font-size: 1.5rem !important;
+  }
+}
+
+.note-separator {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  margin: 3em 0;
+}
+
+html[data-theme="dark"] {
+  .note-separator {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  }
+}

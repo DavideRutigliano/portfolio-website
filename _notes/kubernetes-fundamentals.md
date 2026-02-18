@@ -55,6 +55,33 @@ resources:
 
 ## Debugging
 
+## Execution Flow: `kubectl apply`
+
+What happens when you execute `kubectl apply -f deploy.yaml`? (Reference: [what-happens-when-k8s](https://github.com/jamiehannaford/what-happens-when-k8s))
+
+### 1. Client Side (kubectl)
+- **Validation**: Client-side linting and validation of the manifest.
+- **Generators**: Assembling the HTTP request (converting YAML to JSON).
+- **API Discovery**: Version negotiation to find the correct API group and version.
+- **Authentication**: Loading credentials from `kubeconfig`.
+
+### 2. Kube-apiServer
+- **Authentication**: Verifies "Who are you?" (Certs, Tokens, etc.).
+- **Authorization**: Verifies "Are you allowed to do this?" (RBAC).
+- **Admission Control**: Mutating/Validating admission controllers (e.g., setting defaults, checking quotas).
+- **Persistence**: The validated resource is stored in **etcd**.
+
+### 3. Control Plane (Controllers & Scheduler)
+- **Deployment Controller**: Notices the new Deployment and creates a **ReplicaSet**.
+- **ReplicaSet Controller**: Notices the new ReplicaSet and creates **Pods**.
+- **Scheduler**: Watches for unscheduled Pods and assigns them to a healthy **Node** based on predicates and priorities.
+
+### 4. Node Side (kubelet)
+- **Pod Sync**: The `kubelet` on the assigned Node notices the Pod.
+- **CRI**: Container Runtime Interface pulls images and starts containers.
+- **CNI**: Container Network Interface sets up Pod networking and IP allocation.
+- **CSI**: Container Storage Interface mounts requested volumes.
+
 ### Common Issues
 1. **ImagePullBackOff**: Check image name, registry access, secrets
 2. **CrashLoopBackOff**: Check container logs, resource limits
