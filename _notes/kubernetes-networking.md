@@ -26,9 +26,28 @@ To be Kubernetes-compliant, any networking implementation (CNI plugin) must sati
 Kubernetes doesn't implement networking itself; it offloads this to **CNI plugins** (like Calico, Flannel, Cilium).
 
 ### CNI Lifecycle & The Flow of a Pod
-When a Pod is scheduled, several components coordinate to ensure it gets networking. Here is the step-by-step flow:
+When a Pod is scheduled, several components coordinate to ensure it gets networking. Here is the visual flow:
 
-![CNI Lifecycle](file:///Users/davide/git/personal/portfolio-website/images/notes/cni-lifecycle.png)
+```mermaid
+sequenceDiagram
+    participant S as Scheduler
+    participant K as Kubelet
+    participant CRI as Container Runtime (CRI)
+    participant CNI as CNI Plugin
+    participant NS as Network Namespace
+
+    S->>K: Assign Pod to Node
+    K->>CRI: Create Pod Sandbox
+    CRI->>NS: Create Network Namespace
+    CRI->>CNI: Invoke ADD Command
+    CNI->>CNI: Create veth pair
+    CNI->>NS: Move eth0 to NS
+    CNI->>CNI: IPAM (Assign IP)
+    CNI->>NS: Configure Routing
+    CNI-->>CRI: Success
+    CRI-->>K: Pod Ready
+    K->>CRI: Start App Containers
+```
 
 1. **Scheduling**: The **Scheduler** assigns a Pod to a Node. This is updated in the API Server.
 2. **Kubelet Action**: The **Kubelet** on the assigned Node watches the API Server. When it sees a new Pod assigned to it, it starts the creation process.
@@ -47,7 +66,26 @@ Traffic leaves the Pod via `eth0`, enters the host via the other end of the veth
 
 ## The Life of a Packet (Pod-to-Service)
 
-Understanding how a packet travels from one Pod to another through a Service is key to mastering Kubernetes networking. Here is the step-by-step journey:
+Understanding how a packet travels from one Pod to another through a Service is key to mastering Kubernetes networking.
+
+```mermaid
+sequenceDiagram
+    participant PodA as Pod A (Node 1)
+    participant Node1 as Node 1 Kernel (kube-proxy)
+    participant Net as Physical Network
+    participant Node2 as Node 2 Kernel
+    participant PodB as Pod B (Node 2)
+
+    PodA->>Node1: Request to Service IP
+    Note over Node1: Intercept & DNAT (Service IP -> Pod B IP)
+    Note over Node1: Routing Decision (Pod B is on Node 2)
+    Node1->>Net: Send via CNI (Overlay/Direct)
+    Net->>Node2: Arrive at Node 2
+    Node2->>PodB: Forward to Pod Namespace
+    PodB-->>PodA: Response
+```
+
+### Step-by-Step Journey:
 
 1.  **Request Initiation**: Pod A (on Node 1) sends a request to a Service IP (ClusterIP).
 2.  **Kernel Interception**: The packet leaves the Pod via the `veth` pair and hits the Node 1 Kernel. `kube-proxy` (via `iptables` or `IPVS` rules) intercepts the packet in the `nat/OUTPUT` chain.
@@ -89,7 +127,29 @@ DNS serves as the cluster's phonebook, translating service names into IP address
 
 ### The Resolution Process
 
-When a Pod queries a name like `my-svc`, the OS resolver iterates through the **search domains** defined in `/etc/resolv.conf` (e.g., `default.svc.cluster.local`, `svc.cluster.local`) until it finds a match.
+When a Pod queries a name like `my-svc`, the OS resolver iterates through the **search domains** defined in `/etc/resolv.conf` until it finds a match.
+
+```mermaid
+sequenceDiagram
+    participant App as Application
+    participant OS as OS Resolver (/etc/resolv.conf)
+    participant DNS as CoreDNS (kube-dns Service)
+
+    App->>OS: Resolve "my-svc"
+    Note over OS: iterate search domains
+    OS->>DNS: Query: my-svc.default.svc.cluster.local?
+    DNS-->>OS: A Record: 10.96.0.100 (Success)
+    OS-->>App: Return 10.96.0.100
+
+    Note over App,DNS: Scenario: External Domain (ndots:5)
+    App->>OS: Resolve "google.com"
+    OS->>DNS: Query: google.com.default.svc.cluster.local?
+    DNS-->>OS: NXDOMAIN
+    Note over OS: ... more internal retries ...
+    OS->>DNS: Query: google.com?
+    DNS-->>OS: A Record: 142.250.x.x
+    OS-->>App: Return IP
+```
 
 - **Record Types**:
     - **A Records**: Resolve to a Service's `ClusterIP` (Standard) or multiple Pod IPs (Headless).
@@ -107,6 +167,19 @@ As clusters grow, DNS can become a bottleneck or a source of latency.
 ## Debugging Kubernetes Networking
 
 When network issues arise, follow a **Bottom-Up** troubleshooting flow, starting from the source Pod and moving up the abstraction layers.
+
+```mermaid
+flowchart TD
+    Start[Issue: Pod A cannot reach Service B] --> Net{1. Pod Networking OK?}
+    Net -- No --> FixNet[Check CNI / Routes / NetPol]
+    Net -- Yes --> DNS{2. DNS Resolution OK?}
+    DNS -- No --> FixDNS[Check CoreDNS / Config]
+    DNS -- Yes --> Svc{3. Service IP Reachable?}
+    Svc -- No --> FixSvc[Check kube-proxy / Spec]
+    Svc -- Yes --> EP{4. Endpoints Populated?}
+    EP -- No --> FixEP[Check Selectors / Readiness]
+    EP -- Yes --> App[5. Check Application Logs]
+```
 
 ### The Tool: Ephemeral Containers
 Avoid installing debug tools in production images. Instead, use ephemeral containers to attach a "debug sidecar" (like `netshoot`) to a running Pod:
