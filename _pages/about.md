@@ -9,6 +9,8 @@ redirect_from:
 
 I'm **Davide Rutigliano**, a Senior Platform Engineer building GPU-accelerated Kubernetes platforms for AI/HPC workloads. Specialized in inference observability (vLLM, TTFT) and cluster lifecycle operations. Open-source contributor: Kubernetes, Kueue and KubeAI.
 
+{% include terminal.html %}
+
 ## What is this Site?
 
 This is my personal corner of the internet. A place to share my personal views, document what I learn, and connect with others in the field. Browse my [portfolio](/portfolio/) for featured projects, read my [blog](/blog/) for thoughts on platform engineering, or check out my [notes](/notes/) for quick technical references.

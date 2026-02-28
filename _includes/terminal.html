@@ -1,0 +1,45 @@
+<section id="terminal-section" class="terminal-section">
+    <h2 class="terminal-heading">Interactive Terminal</h2>
+
+    <div class="terminal" id="terminal">
+        <!-- Terminal Header - macOS style -->
+        <div class="terminal__header">
+            <div class="terminal__dots">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+            </div>
+            <div class="terminal__title">davide@portfolio ~ zsh</div>
+            <div class="terminal__spacer"></div>
+        </div>
+
+        <!-- Terminal Content -->
+        <div class="terminal__content" id="terminal-content">
+            <!-- Output history will be rendered here by JS -->
+
+            <!-- Current Input Line -->
+            <div class="terminal__input-line" id="terminal-input-line">
+                <span class="terminal__prompt-arrow">❯</span>
+                <span class="terminal__prompt-dollar">$</span>
+                <div class="terminal__input-wrap">
+                    <input type="text" id="terminal-input" class="terminal__input" spellcheck="false" autocomplete="off"
+                        autofocus aria-label="Terminal command input" />
+                    <span class="terminal__cursor" id="terminal-cursor"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminal Footer -->
+        <div class="terminal__footer">
+            <span>Type 'help' for commands</span>
+            <span class="terminal__footer-theme">zsh + portfolio</span>
+        </div>
+    </div>
+
+    <div class="terminal__info">
+        <span class="terminal__info-dot"></span>
+        <span>Interactive terminal</span>
+        <span>•</span>
+        <span>Powered by vanilla JS</span>
+    </div>
+</section>
