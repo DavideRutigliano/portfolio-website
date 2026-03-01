@@ -28,6 +28,30 @@ graph TD
     Pod[Pod] -- volumes --> PVC
 ```
 
+### Storage Lifecycle Flow
+The complete path from developer intent to a running application with storage.
+
+```mermaid
+sequenceDiagram
+    participant User as Developer
+    participant K8s as K8s Control Plane
+    participant CSI_C as CSI Controller (Provisioner/Attacher)
+    participant Sched as K8s Scheduler
+    participant Kubelet as Node Kubelet (CSI Node Plugin)
+
+    User->>K8s: Create PVC
+    K8s->>CSI_C: Detect PVC (Provisioner)
+    CSI_C->>CSI_C: CreateVolume (CSI)
+    CSI_C-->>K8s: Create PV & Bind
+    User->>K8s: Create Pod
+    Sched->>K8s: Assign Pod to Node
+    K8s->>CSI_C: Trigger Attachment (Attacher)
+    CSI_C->>CSI_C: ControllerPublishVolume (CSI)
+    K8s->>Kubelet: Start Pod
+    Kubelet->>Kubelet: NodeStage & NodePublish (CSI)
+    Kubelet-->>User: Container Started with Volume
+```
+
 ### 1. Persistent Volumes (PV)
 A cluster-scoped resource representing actual storage. It has a lifecycle independent of any individual Pod that uses it.
 - **Phases**: `Available` → `Bound` → `Released` → `Failed`.
@@ -56,16 +80,25 @@ The CSI moved storage drivers "out-of-tree," allowing storage vendors to develop
 ```mermaid
 sequenceDiagram
     participant K8s as K8s API Server
-    participant Sidecar as CSI Sidecar (e.g. external-provisioner)
-    participant CSI as CSI Driver (Controller)
-    participant Storage as Storage Backend
+    participant ExtP as External Provisioner
+    participant ExtA as External Attacher
+    participant CSID as CSI Driver (Controller/Node)
+    participant Kube as Kubelet
 
-    K8s->>Sidecar: New PVC Created
-    Sidecar->>CSI: CreateVolume Request (gRPC)
-    CSI->>Storage: Provision Disk
-    Storage-->>CSI: Disk ID
-    CSI-->>Sidecar: Volume Info
-    Sidecar->>K8s: Create PV & Bind to PVC
+    K8s->>ExtP: Watch: New PVC
+    ExtP->>CSID: CreateVolume (gRPC)
+    Note over CSID: Provision Backend Disk
+    ExtP-->>K8s: Create PersistentVolume (PV)
+    
+    K8s->>ExtA: Watch: Pod scheduled to Node
+    ExtA->>CSID: ControllerPublishVolume (gRPC)
+    Note over CSID: Attach Disk to VM/Host
+    
+    K8s->>Kube: Pod assigned to local node
+    Kube->>CSID: NodeStageVolume (gRPC)
+    Note over CSID: Format & Prep Global Mount
+    Kube->>CSID: NodePublishVolume (gRPC)
+    Note over CSID: Bind Mount into Pod Directory
 ```
 
 - **Controller Plugin**: Handles cluster-wide tasks like provisioning and attaching.
@@ -79,13 +112,70 @@ StatefulSets are uniquely designed for applications requiring stable identities 
 - **Stable Identity**: If `db-0` crashes and is rescheduled, it will re-attach to the same PVC it had before.
 - **PVC Retention Policy**: (K8s 1.27+) Control if PVCs are deleted when a StatefulSet is scaled down.
 
-## Troubleshooting Storage
+## Troubleshooting Guide (At a Glance)
 
-| Symptom | Common Causes |
-| :--- | :--- |
-| **PVC Pending** | StorageClass mismatch, Insufficient capacity, Zone/Node affinity issues. |
-| **ContainerCreating** | Multi-Attach error (RWO volume already in use), CSI driver mount failure. |
-| **Pod stuck Terminating** | "Storage Object in Use" protection—the Pod is still holding the volume. |
+When storage issues arise, use these specific flows to pinpoint the failure.
+
+### Case 1: PVC is stuck in `Pending`
+This usually happens during the **Provisioning** phase.
+
+```mermaid
+flowchart TD
+    Start[PVC stuck in Pending] --> SC{Default StorageClass?}
+    SC -- No --> SetSC[Specify SC or set default]
+    SC -- Yes --> Match{Matching PV?}
+    Match -- Yes --> Bind[Wait for Binding]
+    Match -- No --> Dynamic{SC allow dynamic?}
+    Dynamic -- No --> CreatePV[Static Provisioning Required]
+    Dynamic -- Yes --> FirstConsumer{WaitForFirstConsumer?}
+    FirstConsumer -- Yes --> SchedulePod[Schedule Pod to Node first]
+    FirstConsumer -- No --> Events[Check describe PVC Events: Quota, Permissions]
+```
+
+---
+
+### Case 2: Pod is stuck in `ContainerCreating`
+This occurs during the **Attachment** or **Mounting** phases.
+
+```mermaid
+flowchart TD
+    Start[Pod in ContainerCreating] --> Attached{Volume Attached?}
+    Attached -- No --> MultiAttach{Multi-Attach Error?}
+    MultiAttach -- Yes --> Detach[Force Detach or wait for Old Node]
+    MultiAttach -- No --> CSIController[Check CSI Controller Logs]
+    Attached -- Yes --> Mounted{Node Mounted?}
+    Mounted -- No --> CSINode[Check CSI Node Plugin Logs]
+    Mounted -- Yes --> SecretConfig{ConfigMap/Secret present?}
+    SecretConfig -- No --> CreateResources[Create missing resources]
+    SecretConfig -- Yes --> Permissions[Check SecurityContext & fsGroup]
+```
+
+---
+
+### Case 3: PVC is stuck in `Terminating`
+This happens when you try to delete a volume that is still in use.
+
+```mermaid
+flowchart TD
+    Start[PVC stuck in Terminating] --> Clean[Check for Pod consumers]
+    Clean --> Finalizer{Finalizer: pvc-protection?}
+    Finalizer -- Yes --> RunningPod{Healthy Pod using it?}
+    RunningPod -- Yes --> DeletePod[Delete Pod first]
+    RunningPod -- No --> Zombie[Check Node for zombie mount]
+    Zombie -- Yes --> Unmount[Force Unmount from Node]
+    Zombie -- No --> Force[Remove Finalizer - AS LAST RESORT]
+```
+
+---
+
+### Summary of Debug Commands
+| Failure Layer | Primary Command | Search For |
+| :--- | :--- | :--- |
+| **PVC** | `kubectl describe pvc <name>` | `Events` section for provisioner errors. |
+| **CSI Control** | `kubectl logs csi-provisioner-...` | gRPC `CreateVolume` failures. |
+| **Attachment** | `kubectl get volumeattachment` | `isAttached: true` and `attached: false`. |
+| **Node/Mount** | `kubectl describe pod <name>` | `FailedMount` or `FailedAttach` events. |
+| **Permissions** | `kubectl exec -it <pod> -- ls -l` | Owner UID/GID of the mount point. |
 
 ---
 
