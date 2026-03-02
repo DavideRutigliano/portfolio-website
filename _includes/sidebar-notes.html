@@ -1,0 +1,52 @@
+{% include base_path %}
+
+<nav class="nav__list">
+    <header>
+        <h4 class="nav__title" style="padding: 0;">Notes Index</h4>
+    </header>
+    <ul>
+        {% comment %} Cloud Native {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-cloud" aria-hidden="true"></i> Cloud Native</span>
+            <ul>
+                {% assign cloud_notes = site.notes | where: "category", "cloud-native" | sort: "title" %}
+                {% for note in cloud_notes %}
+                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        {% comment %} GPU/HPC & AI {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-microchip" aria-hidden="true"></i> GPU/HPC & AI</span>
+            <ul>
+                {% assign gpu_notes = site.notes | where: "category", "gpu-ai" | sort: "title" %}
+                {% for note in gpu_notes %}
+                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        {% comment %} Observability {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-eye" aria-hidden="true"></i> Observability</span>
+            <ul>
+                {% assign obs_notes = site.notes | where: "category", "observability" | sort: "title" %}
+                {% for note in obs_notes %}
+                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+
+        {% comment %} Programming {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-code" aria-hidden="true"></i> Programming</span>
+            <ul>
+                {% assign prog_notes = site.notes | where: "category", "programming" | sort: "title" %}
+                {% for note in prog_notes %}
+                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</nav>

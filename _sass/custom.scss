@@ -68,7 +68,7 @@ body {
 /* Navigation */
 .masthead {
   border-bottom: 1px solid var(--border-color);
-  background: #fff;
+  background: var(--bg-color);
   position: fixed;
   top: 0;
   width: 100%;
@@ -77,6 +77,7 @@ body {
 
 body {
   padding-top: 70px;
+  scroll-behavior: smooth;
 }
 
 .greedy-nav a {
@@ -111,14 +112,20 @@ html[data-theme="dark"] {
   .archive__item {
     background: #222 !important;
   }
+
+  .tech-badge {
+    background: #333;
+    color: var(--secondary-color);
+  }
 }
 
 /* Notes Page Layout */
 .page__title {
-  font-size: 2rem !important;
+  font-size: 2.5rem !important;
   color: var(--text-color);
-  font-weight: 700;
-  margin-bottom: 1em !important;
+  font-weight: 800;
+  margin-bottom: 1.5em !important;
+  letter-spacing: -0.02em;
 }
 
 .nav__list {
@@ -127,35 +134,71 @@ html[data-theme="dark"] {
   padding: 0 !important;
 
   .nav__title {
-    color: var(--secondary-color) !important;
-    font-size: 0.8rem !important;
-    font-weight: 600 !important;
+    color: var(--primary-color) !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 10px !important;
-    padding-bottom: 5px !important;
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.5rem !important;
   }
 
   ul {
     list-style: none;
     padding: 0 !important;
+    margin: 0 !important;
 
     li {
-      margin-bottom: 5px;
+      margin-bottom: 0.5rem;
 
-      a {
-        color: var(--secondary-color);
-        font-size: 0.9rem;
-        text-decoration: none;
+      .nav__sub-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary-color);
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-transform: none;
+        border-bottom: none;
+        margin: 1.5rem 0 0.75rem 0;
+        padding: 0;
 
-        &:hover {
-          color: var(--primary-color);
-          text-decoration: underline;
+        i {
+          opacity: 0.7;
+          width: 20px;
+          text-align: center;
         }
+      }
 
-        &.active {
-          color: var(--primary-color);
-          font-weight: 600;
+      ul {
+        margin-left: 0.5rem !important;
+        border-left: 1px solid var(--border-color);
+        padding-left: 0.75rem !important;
+
+        li {
+          margin-bottom: 0.25rem;
+
+          a {
+            display: block;
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            padding: 4px 0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+
+            &:hover {
+              color: var(--primary-color);
+              padding-left: 4px;
+              text-decoration: none;
+            }
+
+            &.active {
+              color: var(--primary-color);
+              font-weight: 600;
+            }
+          }
         }
       }
     }

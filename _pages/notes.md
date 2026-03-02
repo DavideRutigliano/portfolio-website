@@ -3,7 +3,7 @@ layout: archive
 permalink: /notes/
 title: "Notes"
 sidebar:
-  nav: "notes_nav"
+  include: "sidebar-notes.html"
 author_profile: false
 toc: true
 toc_sticky: true
@@ -21,7 +21,7 @@ A collection of technical notes, reference materials, and things I've learned al
   {% assign cloud_notes = site.notes | where: "category", "cloud-native" %}
   {% if cloud_notes.size > 0 %}
     {% for post in cloud_notes %}
-      <div class="note-content">
+      <div id="{{ post.title | slugify }}" class="note-content">
         <h3>{{ post.title }}</h3>
         {{ post.content }}
       </div>
@@ -42,7 +42,7 @@ A collection of technical notes, reference materials, and things I've learned al
   {% assign gpu_notes = site.notes | where: "category", "gpu-ai" %}
   {% if gpu_notes.size > 0 %}
     {% for post in gpu_notes %}
-      <div class="note-content">
+      <div id="{{ post.title | slugify }}" class="note-content">
         <h3>{{ post.title }}</h3>
         {{ post.content }}
       </div>
@@ -63,7 +63,7 @@ A collection of technical notes, reference materials, and things I've learned al
   {% assign obs_notes = site.notes | where: "category", "observability" %}
   {% if obs_notes.size > 0 %}
     {% for post in obs_notes %}
-      <div class="note-content">
+      <div id="{{ post.title | slugify }}" class="note-content">
         <h3>{{ post.title }}</h3>
         {{ post.content }}
       </div>
@@ -84,7 +84,7 @@ A collection of technical notes, reference materials, and things I've learned al
   {% assign prog_notes = site.notes | where: "category", "programming" %}
   {% if prog_notes.size > 0 %}
     {% for post in prog_notes %}
-      <div class="note-content">
+      <div id="{{ post.title | slugify }}" class="note-content">
         <h3>{{ post.title }}</h3>
         {{ post.content }}
       </div>
