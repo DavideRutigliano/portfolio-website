@@ -2,6 +2,7 @@
 title: "Kubernetes Observability Design"
 excerpt: "A high-level overview of metrics, logs, and traces in Kubernetes."
 category: observability
+order: 1
 layout: single
 permalink: /notes/kubernetes-observability/
 toc: true

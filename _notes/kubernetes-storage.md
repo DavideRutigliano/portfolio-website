@@ -2,6 +2,7 @@
 title: "Kubernetes Storage: PV, PVC & CSI"
 excerpt: "A deep dive into Kubernetes storage abstractions, the Container Storage Interface (CSI), and stateful workload management."
 category: cloud-native
+order: 4
 permalink: /notes/kubernetes-storage/
 ---
 

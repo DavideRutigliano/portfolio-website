@@ -18,7 +18,7 @@ A collection of technical notes, reference materials, and things I've learned al
   
   Notes on Kubernetes, container orchestration, and cloud-native technologies.
 
-  {% assign cloud_notes = site.notes | where: "category", "cloud-native" %}
+  {% assign cloud_notes = site.notes | where: "category", "cloud-native" | sort: "order" %}
   {% if cloud_notes.size > 0 %}
     {% for post in cloud_notes %}
       <div id="{{ post.title | slugify }}" class="note-content">
@@ -35,11 +35,11 @@ A collection of technical notes, reference materials, and things I've learned al
 ---
 
 <div id="gpuhpc--ai-infrastructure" class="notes-category">
-  ## GPU/HPC & AI Infrastructure
+  ## GPU / HPC & AI Infrastructure
 
   Deep dives into GPU computing, NVIDIA MIG/vGPU, DCGM monitoring, vLLM, and AI/ML/HPC infrastructure.
 
-  {% assign gpu_notes = site.notes | where: "category", "gpu-ai" %}
+  {% assign gpu_notes = site.notes | where: "category", "gpu-ai" | sort: "order" %}
   {% if gpu_notes.size > 0 %}
     {% for post in gpu_notes %}
       <div id="{{ post.title | slugify }}" class="note-content">
@@ -60,7 +60,7 @@ A collection of technical notes, reference materials, and things I've learned al
 
   OpenTelemetry, Prometheus, Grafana, and monitoring best practices.
 
-  {% assign obs_notes = site.notes | where: "category", "observability" %}
+  {% assign obs_notes = site.notes | where: "category", "observability" | sort: "order" %}
   {% if obs_notes.size > 0 %}
     {% for post in obs_notes %}
       <div id="{{ post.title | slugify }}" class="note-content">
@@ -81,7 +81,7 @@ A collection of technical notes, reference materials, and things I've learned al
 
   Go, Python, Rust, and software development practices.
 
-  {% assign prog_notes = site.notes | where: "category", "programming" %}
+  {% assign prog_notes = site.notes | where: "category", "programming" | sort: "order" %}
   {% if prog_notes.size > 0 %}
     {% for post in prog_notes %}
       <div id="{{ post.title | slugify }}" class="note-content">

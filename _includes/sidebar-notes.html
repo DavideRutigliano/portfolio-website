@@ -9,18 +9,19 @@
         <li>
             <span class="nav__sub-title"><i class="fas fa-fw fa-cloud" aria-hidden="true"></i> Cloud Native</span>
             <ul>
-                {% assign cloud_notes = site.notes | where: "category", "cloud-native" | sort: "title" %}
+                {% assign cloud_notes = site.notes | where: "category", "cloud-native" | sort: "order" %}
                 {% for note in cloud_notes %}
                 <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
                 {% endfor %}
             </ul>
         </li>
 
-        {% comment %} GPU/HPC & AI {% endcomment %}
+        {% comment %} GPU / HPC & AI Infrastructure {% endcomment %}
         <li>
-            <span class="nav__sub-title"><i class="fas fa-fw fa-microchip" aria-hidden="true"></i> GPU/HPC & AI</span>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-microchip" aria-hidden="true"></i> GPU / HPC & AI
+                Infrastructure</span>
             <ul>
-                {% assign gpu_notes = site.notes | where: "category", "gpu-ai" | sort: "title" %}
+                {% assign gpu_notes = site.notes | where: "category", "gpu-ai" | sort: "order" %}
                 {% for note in gpu_notes %}
                 <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
                 {% endfor %}
@@ -31,7 +32,7 @@
         <li>
             <span class="nav__sub-title"><i class="fas fa-fw fa-eye" aria-hidden="true"></i> Observability</span>
             <ul>
-                {% assign obs_notes = site.notes | where: "category", "observability" | sort: "title" %}
+                {% assign obs_notes = site.notes | where: "category", "observability" | sort: "order" %}
                 {% for note in obs_notes %}
                 <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
                 {% endfor %}
@@ -42,7 +43,7 @@
         <li>
             <span class="nav__sub-title"><i class="fas fa-fw fa-code" aria-hidden="true"></i> Programming</span>
             <ul>
-                {% assign prog_notes = site.notes | where: "category", "programming" | sort: "title" %}
+                {% assign prog_notes = site.notes | where: "category", "programming" | sort: "order" %}
                 {% for note in prog_notes %}
                 <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
                 {% endfor %}

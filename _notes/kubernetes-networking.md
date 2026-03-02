@@ -2,6 +2,7 @@
 title: "Kubernetes Networking & CNI"
 excerpt: "Deep dive into the Kubernetes network model, CNI lifecycle, and the 'Golden Rules' of cluster networking."
 category: cloud-native
+order: 3
 permalink: /notes/kubernetes-networking/
 ---
 

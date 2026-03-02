@@ -2,6 +2,7 @@
 title: "Kubernetes Cluster Architecture"
 excerpt: "Deep dive into the architecture and core components of a Kubernetes cluster."
 category: cloud-native
+order: 1
 permalink: /notes/kubernetes-architecture/
 ---
 

@@ -2,6 +2,7 @@
 title: "Golang Fundamentals"
 excerpt: "Quick reference for Go's typing system, memory management, and concurrency model."
 category: programming
+order: 1
 permalink: /notes/golang-fundamentals/
 ---
 

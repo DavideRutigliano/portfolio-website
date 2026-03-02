@@ -2,6 +2,7 @@
 title: "Kubernetes Fundamentals"
 excerpt: "Core concepts and patterns for working with Kubernetes"
 category: cloud-native
+order: 2
 permalink: /notes/kubernetes-fundamentals/
 ---
 
