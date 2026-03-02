@@ -22,10 +22,10 @@ Kubernetes uses several layers to manage storage, moving from high-level request
 
 ```mermaid
 graph TD
-    PVC[PersistentVolumeClaim (PVC)] -- requests --> SC[StorageClass]
-    SC -- provisions --> PV[PersistentVolume (PV)]
-    PV -- backed by --> Infra[Infrastructure Storage (EBS, Azure Disk, NFS)]
-    Pod[Pod] -- volumes --> PVC
+    PVC["PersistentVolumeClaim (PVC)"] -- requests --> SC["StorageClass"]
+    SC -- provisions --> PV["PersistentVolume (PV)"]
+    PV -- backed by --> Infra["Infrastructure Storage (EBS, Azure Disk, NFS)"]
+    Pod["Pod"] -- volumes --> PVC
 ```
 
 ### Storage Lifecycle Flow
@@ -127,9 +127,9 @@ flowchart TD
     Match -- Yes --> Bind[Wait for Binding]
     Match -- No --> Dynamic{SC allow dynamic?}
     Dynamic -- No --> CreatePV[Static Provisioning Required]
-    Dynamic -- Yes --> FirstConsumer{WaitForFirstConsumer?}
-    FirstConsumer -- Yes --> SchedulePod[Schedule Pod to Node first]
-    FirstConsumer -- No --> Events[Check describe PVC Events: Quota, Permissions]
+    Dynamic -- Yes --> FirstConsumer{"WaitForFirstConsumer?"}
+    FirstConsumer -- Yes --> SchedulePod["Schedule Pod to Node first"]
+    FirstConsumer -- No --> Events["Check describe PVC Events: Quota, Permissions"]
 ```
 
 ---
@@ -159,11 +159,11 @@ This happens when you try to delete a volume that is still in use.
 flowchart TD
     Start[PVC stuck in Terminating] --> Clean[Check for Pod consumers]
     Clean --> Finalizer{Finalizer: pvc-protection?}
-    Finalizer -- Yes --> RunningPod{Healthy Pod using it?}
-    RunningPod -- Yes --> DeletePod[Delete Pod first]
-    RunningPod -- No --> Zombie[Check Node for zombie mount]
-    Zombie -- Yes --> Unmount[Force Unmount from Node]
-    Zombie -- No --> Force[Remove Finalizer - AS LAST RESORT]
+    Finalizer -- Yes --> RunningPod{"Healthy Pod using it?"}
+    RunningPod -- Yes --> DeletePod["Delete Pod first"]
+    RunningPod -- No --> Zombie["Check Node for zombie mount"]
+    Zombie -- Yes --> Unmount["Force Unmount from Node"]
+    Zombie -- No --> Force["Remove Finalizer - AS LAST RESORT"]
 ```
 
 ---
