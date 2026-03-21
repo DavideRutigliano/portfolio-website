@@ -1,7 +1,8 @@
 ---
 title: "GPU Performance & Troubleshooting"
 excerpt: "Debugging bottlenecks, XID errors, and hardware diagnostic flowcharts"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 5
 permalink: /notes/gpu-performance-troubleshooting/
 ---

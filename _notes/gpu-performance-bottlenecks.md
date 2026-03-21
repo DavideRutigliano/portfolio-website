@@ -1,7 +1,8 @@
 ---
 title: "GPU Performance: Data Movement & Bottlenecks"
 excerpt: "Identifying and debugging PCIe, NVLink, and memory bottlenecks using DCGM"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 4
 permalink: /notes/gpu-performance-bottlenecks/
 ---

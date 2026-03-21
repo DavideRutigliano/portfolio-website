@@ -1,7 +1,8 @@
 ---
 title: "GPU Monitoring & Metrics"
 excerpt: "DCGM, DCGM Exporter, and interpreting GPU profiling metrics"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 4
 permalink: /notes/gpu-monitoring-metrics/
 ---

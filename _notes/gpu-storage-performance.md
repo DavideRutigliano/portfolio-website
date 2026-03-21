@@ -1,7 +1,8 @@
 ---
 title: "GPU Storage & Parallel Filesystems"
 excerpt: "Feeding GPUs at scale with Lustre, WEKA, and GPUDirect Storage"
-category: gpu-ai
+macro_category: hpc-ai-infrastructure
+category: storage-networking
 order: 3
 permalink: /notes/gpu-storage-performance/
 ---

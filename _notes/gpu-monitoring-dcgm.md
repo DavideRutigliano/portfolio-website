@@ -1,7 +1,8 @@
 ---
 title: "GPU Monitoring with NVIDIA DCGM"
 excerpt: "Using DCGM Exporter and Prometheus for GPU monitoring in Kubernetes"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 3
 permalink: /notes/gpu-monitoring-dcgm/
 ---

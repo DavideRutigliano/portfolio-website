@@ -1,7 +1,8 @@
 ---
 title: "High-Performance Networking (RDMA, InfiniBand, RoCE)"
 excerpt: "Fundamentals of RDMA, InfiniBand interconnects, and RDMA over Converged Ethernet (RoCE) for GPU clusters."
-category: gpu-ai
+macro_category: hpc-ai-infrastructure
+category: storage-networking
 order: 2
 permalink: /notes/hpc-high-performance-networking/
 ---

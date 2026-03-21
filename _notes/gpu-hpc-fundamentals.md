@@ -1,7 +1,8 @@
 ---
 title: "GPU Troubleshooting Fundamentals"
 excerpt: "XID errors, ECC errors, and PCIe bus failures in HPC environments"
-category: gpu-ai
+macro_category: hpc-ai-infrastructure
+category: gpu
 order: 1
 permalink: /notes/gpu-hpc-fundamentals/
 ---

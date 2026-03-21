@@ -1,7 +1,8 @@
 ---
 title: "Parallel Filesystems for HPC & AI (Lustre, WEKA)"
 excerpt: "Storage architectures for high-throughput computing and distributed AI training"
-category: gpu-ai
+macro_category: hpc-ai-infrastructure
+category: storage-networking
 order: 6
 permalink: /notes/hpc-parallel-storage/
 ---

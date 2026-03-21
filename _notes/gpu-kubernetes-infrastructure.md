@@ -1,7 +1,8 @@
 ---
 title: "GPU Infrastructure & Scheduling"
 excerpt: "Operator setup, resource allocation, and sharing strategies in Kubernetes"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 1
 permalink: /notes/gpu-kubernetes-infrastructure/
 ---

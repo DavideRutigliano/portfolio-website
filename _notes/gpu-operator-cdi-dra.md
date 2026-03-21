@@ -1,7 +1,8 @@
 ---
 title: "GPU Operator, CDI, and DRA"
 excerpt: "NVIDIA GPU Operator components, Container Device Interface (CDI), and Dynamic Resource Allocation (DRA) in Kubernetes"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 5
 permalink: /notes/gpu-operator-cdi-dra/
 ---
@@ -13,6 +14,42 @@ Modern Kubernetes infrastructure for managing accelerator lifecycle, standardizi
 ## NVIDIA GPU Operator
 
 The NVIDIA GPU Operator automates the management of all NVIDIA software components needed to provision GPUs in Kubernetes.
+
+```mermaid
+flowchart TD
+    Operator["NVIDIA GPU OPERATOR"]
+    NFD["NFD"]
+    
+    subgraph GPUNode ["GPU Node"]
+        Drivers["NVIDIA Drivers"]
+        DevicePlugin["Device Plugin"]
+        Toolkit["Container Toolkit"]
+        DCGM["DCGM"]
+    end
+    
+    Operator -.-> NFD
+    Operator -.-> Drivers
+    Operator -.-> DevicePlugin
+    Operator -.-> Toolkit
+    Operator -.-> DCGM
+    
+    classDef operator fill:#3b82f6,color:#fff,stroke:#2563eb,stroke-width:2px
+    classDef nfd fill:#fff,stroke:#ef4444,color:#ef4444,stroke-width:2px,rx:10,ry:10
+    classDef drivers fill:#eff6ff,stroke:#3b82f6,color:#3b82f6,stroke-width:2px,rx:10,ry:10
+    classDef plugin fill:#fefce8,stroke:#ca8a04,color:#ca8a04,stroke-width:2px,rx:10,ry:10
+    classDef toolkit fill:#f0fdf4,stroke:#16a34a,color:#16a34a,stroke-width:2px,rx:10,ry:10
+    classDef dcgm fill:#faf5ff,stroke:#9333ea,color:#9333ea,stroke-width:2px,rx:10,ry:10
+    classDef node fill:#fdfbf7,stroke:#333,stroke-width:1px
+    
+    class Operator operator
+    class NFD nfd
+    class Drivers drivers
+    class DevicePlugin plugin
+    class Toolkit toolkit
+    class DCGM dcgm
+    class GPUNode node
+```
+<p align="center"><em>Every available GPU nodes will be configured with required components and configurations</em></p>
 
 ### Core Components (Operands)
 - **NVIDIA Driver**: Low-level kernel drivers (can be containerized).

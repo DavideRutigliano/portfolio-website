@@ -1,7 +1,8 @@
 ---
 title: "GPU Sharing in Kubernetes"
 excerpt: "NVIDIA MIG, vGPU, and time-slicing strategies for GPU workloads"
-category: gpu-ai
+macro_category: cloud-native
+category: kubernetes-gpu
 order: 4
 permalink: /notes/gpu-sharing-kubernetes/
 ---

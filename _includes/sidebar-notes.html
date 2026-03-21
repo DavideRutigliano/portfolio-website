@@ -9,33 +9,9 @@
         <li>
             <span class="nav__sub-title"><i class="fas fa-fw fa-cloud" aria-hidden="true"></i> Cloud Native</span>
             <ul>
-                {% assign cloud_notes = site.notes | where: "category", "cloud-native" | sort: "order" %}
-                {% for note in cloud_notes %}
-                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-
-        {% comment %} GPU / HPC & AI Infrastructure {% endcomment %}
-        <li>
-            <span class="nav__sub-title"><i class="fas fa-fw fa-microchip" aria-hidden="true"></i> GPU / HPC & AI
-                Infrastructure</span>
-            <ul>
-                {% assign gpu_notes = site.notes | where: "category", "gpu-ai" | sort: "order" %}
-                {% for note in gpu_notes %}
-                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-
-        {% comment %} Observability {% endcomment %}
-        <li>
-            <span class="nav__sub-title"><i class="fas fa-fw fa-eye" aria-hidden="true"></i> Observability</span>
-            <ul>
-                {% assign obs_notes = site.notes | where: "category", "observability" | sort: "order" %}
-                {% for note in obs_notes %}
-                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
-                {% endfor %}
+                <li><a href="javascript:void(0);" onclick="showCategory('cloud-native-kubernetes', this)" class="subcat-link" data-target="cloud-native-kubernetes">Kubernetes</a></li>
+                <li><a href="javascript:void(0);" onclick="showCategory('cloud-native-kubernetes-gpu', this)" class="subcat-link" data-target="cloud-native-kubernetes-gpu">Kubernetes + GPU</a></li>
+                <li><a href="javascript:void(0);" onclick="showCategory('cloud-native-observability', this)" class="subcat-link" data-target="cloud-native-observability">Observability</a></li>
             </ul>
         </li>
 
@@ -43,10 +19,24 @@
         <li>
             <span class="nav__sub-title"><i class="fas fa-fw fa-code" aria-hidden="true"></i> Programming</span>
             <ul>
-                {% assign prog_notes = site.notes | where: "category", "programming" | sort: "order" %}
-                {% for note in prog_notes %}
-                <li><a href="{{ base_path }}/notes/#{{ note.title | slugify }}">{{ note.title }}</a></li>
-                {% endfor %}
+                <li><a href="javascript:void(0);" onclick="showCategory('programming-golang', this)" class="subcat-link" data-target="programming-golang">Golang</a></li>
+            </ul>
+        </li>
+
+        {% comment %} HPC / AI Infrastructure {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-microchip" aria-hidden="true"></i> HPC / AI Infrastructure</span>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="showCategory('hpc-ai-infrastructure-gpu', this)" class="subcat-link" data-target="hpc-ai-infrastructure-gpu">GPU Fundamentals</a></li>
+                <li><a href="javascript:void(0);" onclick="showCategory('hpc-ai-infrastructure-storage-networking', this)" class="subcat-link" data-target="hpc-ai-infrastructure-storage-networking">Storage & Networking</a></li>
+            </ul>
+        </li>
+
+        {% comment %} Virtualization {% endcomment %}
+        <li>
+            <span class="nav__sub-title"><i class="fas fa-fw fa-server" aria-hidden="true"></i> Virtualization</span>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="showCategory('virtualization-kubernetes', this)" class="subcat-link" data-target="virtualization-kubernetes">KubeVirt</a></li>
             </ul>
         </li>
     </ul>

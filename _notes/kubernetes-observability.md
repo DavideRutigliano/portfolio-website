@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes Observability Design"
 excerpt: "A high-level overview of metrics, logs, and traces in Kubernetes."
+macro_category: cloud-native
 category: observability
 order: 1
 layout: single

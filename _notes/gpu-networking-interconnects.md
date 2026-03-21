@@ -1,7 +1,8 @@
 ---
 title: "GPU Networking & Interconnects"
 excerpt: "RDMA, InfiniBand, RoCE, and internal GPU-to-GPU communication (NVLink)"
-category: gpu-ai
+macro_category: hpc-ai-infrastructure
+category: storage-networking
 order: 2
 permalink: /notes/gpu-networking-interconnects/
 ---
@@ -40,6 +41,21 @@ How GPUs communicate with each other and the CPU within a single server.
 
 ### NVLink Advantage
 NVLink allows direct memory access between GPUs, effectively creating a unified memory space and bypassing the PCIe bottleneck during collective operations (AllReduce).
+
+## NCCL & Rail Optimization
+
+**NCCL** stands for NVIDIA Collective Communication Library. It is a library used in applications that need to do collective, cross-GPU actions. It's topology-aware and allows an abstracted interface to the set of GPUs being used across a cluster system, such that applications don't need to understand where a particular GPU resides.
+
+### Rail Optimization
+
+In a **Rail-Optimized topology**, each NIC is connected to a different switch (or spine-leaf network) and is called a rail (often represented by a unique color in architecture diagrams). The rails are also interconnected at an upper tier. Therefore, this topology provides two ways to cross rails: through the Scale Up fabric (preferred) or through the upper tier of the Scale Out topology.
+
+For example, to communicate with GPU 8 on server 2, GPU 4 on server 1 can either:
+
+- Transfer its data into the memory of GPU 8 on server 1. Then GPU 8 on server 1 communicates through NIC 8 on server 1 with GPU 8 on server 2, through NIC 8 on server 2.
+- Send its data to NIC 4 on server 1, which can reach through the upper tier to NIC 8 on server 2, coupled with GPU 8 on server 2.
+
+This property allows AI workloads to perform better on a Rail-Optimized topology than on a Pure Rail topology because the current Collective Communication Libraries are not yet fully optimized for the Pure Rail topology. As such, the Rail-Optimized topology is the recommended topology to build a Scale Out fabric.
 
 ---
 
