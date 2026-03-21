@@ -3,7 +3,7 @@ title: "Kubernetes Fundamentals"
 excerpt: "Core concepts and patterns for working with Kubernetes"
 macro_category: cloud-native
 category: kubernetes
-order: 2
+order: 3
 permalink: /notes/kubernetes-fundamentals/
 ---
 
@@ -20,30 +20,20 @@ Quick reference for core Kubernetes concepts and common operations.
 - **Failed**: All containers terminated, at least one with failure
 - **Unknown**: State cannot be determined
 
-### Common Commands
 
-```bash
-# Get pod details with wide output
-kubectl get pods -o wide
-
-# Watch pods in real-time
-kubectl get pods -w
-
-# Get pod logs (follow)
-kubectl logs -f <pod-name>
-
-# Execute into a pod
-kubectl exec -it <pod-name> -- /bin/bash
-
-# Port forward
-kubectl port-forward <pod-name> 8080:80
-```
 
 ## Resource Management
 
+In Kubernetes, you specify resource requirements for a container using `requests` and `limits`. Under the hood, the `kubelet` translates these into Linux cgroups settings to enforce constraints at the kernel level.
+
 ### Resource Requests vs Limits
-- **Requests**: Guaranteed resources for scheduling
-- **Limits**: Maximum resources a container can use
+
+- **Requests**: The amount of CPU/Memory guaranteed for the container. The Kubernetes Scheduler uses these values to decide which node to place the Pod on.
+  - **Memory Requests**: Used logically by the scheduler to ensure the node has enough capacity.
+  - **CPU Requests**: Mapped to `cpu.shares`. This assigns a relative weight to the container's cgroup, guaranteeing it gets a proportional share of CPU time during contention.
+- **Limits**: The maximum amount of CPU/Memory the container is allowed to use.
+  - **Memory Limits**: Mapped to `memory.limit_in_bytes` (in cgroups v1) or `memory.max` (in cgroups v2). If a container exceeds this, it is OOM-Killed.
+  - **CPU Limits**: Mapped to `cpu.cfs_quota_us` and `cpu.cfs_period_us`. This sets a hard cap on CPU time. If exceeded, the container is throttled by the kernel.
 
 ```yaml
 resources:
@@ -54,6 +44,25 @@ resources:
     memory: "128Mi"
     cpu: "500m"
 ```
+
+### Quality of Service (QoS) Classes
+
+Based on how you configure requests and limits, Kubernetes assigns one of three QoS classes to your Pods. This QoS class determines how the Pod is treated under resource pressure, primarily by configuring the Linux `oom_score_adj` (Out-Of-Memory score adjust) for the containers. The higher the score, the more likely the kernel will kill the container to free up memory.
+
+1. **Guaranteed**
+   - **Criteria**: Every container in the Pod must have both memory and CPU `requests` equal to their `limits`.
+   - **Behavior**: Top priority. These pods are guaranteed their resources and will only be killed if they exceed their limits.
+   - **Linux Mapping**: `oom_score_adj` is set to `-997`.
+
+2. **Burstable**
+   - **Criteria**: At least one container in the Pod has a memory or CPU `request` that is less than its `limit`, or only `requests` are specified.
+   - **Behavior**: Medium priority. These pods have some guaranteed resources but can burst to use more if available. They will be killed if the node runs out of memory and no BestEffort pods remain.
+   - **Linux Mapping**: `oom_score_adj` is calculated dynamically based on the requested memory percentage, usually ranging from `2` to `999`.
+
+3. **BestEffort**
+   - **Criteria**: The Pod has no memory or CPU `requests` or `limits` configured.
+   - **Behavior**: Lowest priority. These pods can use as much free node resources as they want, but are the first to be terminated if the node experiences memory pressure.
+   - **Linux Mapping**: `oom_score_adj` is set to `1000` (the highest likelihood of being OOM-Killed).
 
 ## Debugging
 
@@ -83,6 +92,38 @@ What happens when you execute `kubectl apply -f deploy.yaml`? (Reference: [what-
 - **CRI**: Container Runtime Interface pulls images and starts containers.
 - **CNI**: Container Network Interface sets up Pod networking and IP allocation.
 - **CSI**: Container Storage Interface mounts requested volumes.
+
+### Advanced & Debugging Commands
+
+When basic `get` and `logs` aren't enough, use these more powerful commands:
+
+```bash
+# Get logs from all pods with a specific label
+kubectl logs -l app=my-service
+
+# Create an ephemeral debug container in a running pod with shared process namespace
+# Useful for inspecting a container without a shell (e.g. distroless) or checking memory/threads
+kubectl debug -it <pod-name> --image=busybox --target=<container-name> --share-processes
+
+# Force delete a pod (skips graceful shutdown)
+kubectl delete pod <pod-name> --grace-period=0 --force
+
+# List all pods and their specific nodes using custom columns
+kubectl get pods -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeName,STATUS:.status.phase
+
+# Extract pod and container images using JSONPath
+# This is great for scripting or finding version mismatches
+kubectl get pods -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.spec.containers[*].image}{"\n"}{end}'
+
+# Sort pods by restart count
+kubectl get pods --sort-by='.status.containerStatuses[0].restartCount'
+
+# Port-forward to a service instead of a pod
+kubectl port-forward svc/my-service 8080:80
+
+# Check RBAC permissions (Can I create deployments in this namespace?)
+kubectl auth can-i create deployments
+```
 
 ### Common Issues
 1. **ImagePullBackOff**: Check image name, registry access, secrets

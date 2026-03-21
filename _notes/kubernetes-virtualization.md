@@ -3,7 +3,7 @@ title: "Virtualization with KubeVirt"
 excerpt: "Deep dive into how KubeVirt provides virtualization within Kubernetes, focusing on networking and TAP interfaces."
 macro_category: virtualization
 category: kubernetes
-order: 1
+order: 5
 permalink: /notes/kubernetes-virtualization/
 ---
 
