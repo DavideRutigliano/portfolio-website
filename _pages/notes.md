@@ -14,7 +14,7 @@ A collection of technical notes, reference materials, and things I've learned al
   <p><em>Select a category from the left menu to view the concepts and notes.</em></p>
 </div>
 
-{% assign subcats = "cloud-native|kubernetes|Cloud Native: Kubernetes,cloud-native|kubernetes-gpu|Cloud Native: Kubernetes + GPU,cloud-native|observability|Cloud Native: Observability,programming|golang|Programming: Golang,hpc-ai-infrastructure|gpu|HPC / AI Infrastructure: GPU Fundamentals,hpc-ai-infrastructure|storage-networking|HPC / AI Infrastructure: Storage & Networking,virtualization|kubernetes|Virtualization: KubeVirt" | split: "," %}
+{% assign subcats = "cloud-native|kubernetes|Cloud Native: Kubernetes,cloud-native|kubernetes-gpu|Cloud Native: Kubernetes + GPU,cloud-native|observability|Cloud Native: Observability,programming|golang|Programming: Golang,hpc-ai-infrastructure|gpu|HPC / AI Infrastructure: GPU Fundamentals,hpc-ai-infrastructure|storage-networking|HPC / AI Infrastructure: Storage & Networking,virtualization|kubernetes|Virtualization: KubeVirt,networking|dhcp|Networking: DHCP,networking|dns|Networking: DNS" | split: "," %}
 
 {% for subcat in subcats %}
   {% assign parts = subcat | split: "|" %}
