@@ -5,28 +5,37 @@ category: "networking"
 order: 2
 ---
 
-## Load Balancing: L4 vs L7 Architecture
+## Load Balancing Architecture: L4 vs L7
 
-Load balancing is the process of distributing network traffic across multiple servers.
+Load balancing is the process of distributing network traffic across multiple servers. To design a scalable system, we must choose the right layer for traffic management.
 
-### L4 Load Balancing (Transport Layer)
-Works at the TCP/UDP level. It makes routing decisions based on IP addresses and Port numbers.
+### Layer 4 Load Balancing (Transport Layer)
+Layer 4 load balancing operates at the **Transport Layer (TCP/UDP)**. It makes routing decisions based on IP addresses and port numbers without inspecting the actual application data.
+
+<img src="https://substackcdn.com/image/fetch/$s_!nKnG!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff0441b18-a2eb-4c04-8479-8dc254dc1468_1952x1296.heic" alt="L4 Load Balancing Diagram" style="max-width: 100%; height: auto; display: block; margin: 1em 0;">
 
 *   **Mechanism**: Uses Network Address Translation (NAT) or Direct Server Return (DSR).
-*   **Pros**: Extremely fast, low CPU usage, does not terminate TCP connections.
-*   **Cons**: No visibility into application data (cannot route based on URL, headers, or cookies).
+*   **Pros**: Extremely fast, low CPU overhead, handles high-throughput traffic easily.
+*   **Cons**: No visibility into HTTP headers, cookies, or URLs; cannot perform content-based routing.
 
-### L7 Load Balancing (Application Layer)
-Works at the HTTP/HTTPS/gRPC level. It terminates the SSL/TLS connection and inspects the application data.
+### Layer 7 Load Balancing (Application Layer)
+Layer 7 load balancing operates at the **Application Layer (HTTP/HTTPS/gRPC)**. It terminates the client's network connection and inspects the payload to make intelligent routing decisions.
 
-*   **Mechanism**: Acts as a full reverse proxy.
-*   **Pros**: Intelligent routing (Path-based, Header-based), SSL Termination, Caching.
-*   **Cons**: More CPU intensive, higher latency due to connection termination.
+<img src="https://substackcdn.com/image/fetch/$s_!Wz-4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F458a55c2-88c6-4990-8cca-ab6d9df49e19_1600x1034.png" alt="L7 Load Balancing Diagram" style="max-width: 100%; height: auto; display: block; margin: 1em 0;">
 
-### L4 vs L7 Load Balancing Architecture
-<img src="https://www.nginx.com/wp-content/uploads/2014/05/L4-vs-L7-Load-Balancing.png" alt="L4 vs L7 Load Balancing" style="max-width: 100%; height: auto; display: block; margin: 1em 0;">
+*   **Mechanism**: Acts as a **full proxy**. Terminates SSL/TLS, inspects URLs, headers, and cookies.
+*   **Pros**: Intelligent routing (path-based, cookie-based), SSL Offloading, Caching, WAF integration.
+*   **Cons**: More CPU intensive, higher latency due to connection termination and packet inspection.
+
+### Technical Comparison: L4 vs L7
 
 | Feature | L4 (Transport) | L7 (Application) |
+| :--- | :--- | :--- |
+| **Criteria** | IP, TCP/UDP Port | URL, Cookies, Headers |
+| **Logic** | Simple, Fast | Complex, Intelligent |
+| **Performance**| Low Latency | Higher Latency |
+| **Security** | Minimal | SSL Termination, WAF |
+| **Examples** | AWS NLB, F5 | AWS ALB, NGINX, Envoy |
 
 ---
 
