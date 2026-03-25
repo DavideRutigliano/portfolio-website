@@ -13,30 +13,29 @@ The Domain Name System (DNS) translates human-readable domain names (like `examp
 
 ## Complete DNS Lookup and Webpage Query
 
-The full resolution and connection process involves both recursive and iterative queries across multiple tiers of DNS infrastructure.
+The full resolution and connection process involves multiple layers of caching and a hierarchical search across global DNS infrastructure.
 
-```mermaid
-sequenceDiagram
-    participant C as example.com (Laptop)
-    participant R as DNS Resolver
-    participant Root as Root Server
-    participant TLD as TLD Server
-    participant Auth as example.com<br/>(Authoritative Server)
-    participant W as Server
+<img src="https://substackcdn.com/image/fetch/$s_!yb_V!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F16cec58a-02f8-4daf-8669-d1208ac5fc18_2360x2960.jpeg" alt="What Happens When You Enter a URL - ByteByteGo" style="max-width: 100%; height: auto; display: block; margin: 1em 0;">
 
-    C->>R: 1. Recursive Query
-    R->>Root: 2. Iterative Query
-    Root-->>R: 3. Iterative Response (Refers to TLD)
-    R->>TLD: 4. Iterative Query
-    TLD-->>R: 5. Iterative Response (Refers to Auth)
-    R->>Auth: 6. Iterative Query
-    Auth-->>R: 7. Iterative Response (Returns IP)
-    R-->>C: 8. Recursive Response
-    C->>W: 9. Request to Web Server
-    W-->>C: 10. Response from Web Server
-```
+### The 4 Layers of DNS Caching
+Before reaching out to the network, the system checks several cache layers for a quick hit:
+1.  **Browser Cache**: The browser maintains its own temporary database of DNS records for recently visited sites.
+2.  **OS Cache**: If not in the browser, the OS (via a "stub resolver") checks its own local cache (`hosts` file or internal DNS cache).
+3.  **Router Cache**: Many home/office routers maintain their own DNS cache to speed up requests for all devices on the network.
+4.  **ISP DNS Cache**: If all else fails locally, the recursive resolver at your ISP (Internet Service Provider) is queried, which often has a large cache of popular domains.
 
-### DNS Query Types Explained
+### Recursive vs. Iterative Queries
+If the IP is not cached, the **Recursive DNS Resolution** begins:
 
-* **Recursive Query**: The client asks the DNS Resolver for an answer. The resolver takes full responsibility for tracking down the IP address and returning the final result (or an error) to the client. The client waits until the resolver does all the heavy lifting.
-* **Iterative Query**: The resolver queries higher-level DNS servers (Root, TLD, Authoritative). These backend servers don't fetch the final answer; instead, they provide the address of the *next* server in the chain that might know. This places the burden back on the resolver to continue the search iteratively until it reaches the Authoritative server that holds the final record.
+1.  **Recursive Query**: The client asks the **DNS Resolver** (usually provided by the ISP or a public provider like 8.8.8.8) for the final answer. The resolver takes full responsibility for the search.
+2.  **Iterative Queries**: The Resolver performs the "heavy lifting" by querying the hierarchy:
+    *   **Root Servers**: Directed to the correct **TLD Server** (e.g., `.com`).
+    *   **TLD Name Servers**: Directed to the **Authoritative Name Server** for the specific domain (e.g., `google.com`).
+    *   **Authoritative Name Servers**: Provides the final **A Record (IP Address)** back to the resolver.
+
+### Connection & Rendering
+Once the IP is returned to the browser:
+*   **TCP 3-Way Handshake**: SYN → SYN/ACK → ACK.
+*   **TLS Handshake**: Secure encryption is established.
+*   **HTTP Request**: The browser sends the GET request; the server responds with resources (HTML, CSS, JS).
+*   **Rendering**: The browser parses the DOM/CSSOM, constructs the Render Tree, and paints the page.

@@ -130,4 +130,31 @@ graph LR
 > **Interview Question**: *Why use a Service Mesh like Istio over a central API Gateway?*
 > - Service Mesh handles **East-West** traffic (service-to-service).
 > - API Gateway handles **North-South** traffic (external-to-service).
-> - Service Mesh provides better granularity for circuit breaking and individual service observability.
+---
+
+## Behind the Scenes: What Happens When You Enter a URL?
+
+This is a classic system design interview question that tests your understanding of the entire web stack, from DNS resolution to browser rendering.
+
+<img src="https://substackcdn.com/image/fetch/$s_!yb_V!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F16cec58a-02f8-4daf-8669-d1208ac5fc18_2360x2960.jpeg" alt="What Happens When You Enter a URL - ByteByteGo" style="max-width: 100%; height: auto; display: block; margin: 1em 0;">
+
+### 1. DNS Resolution (The "Address Book" Lookup)
+The browser first needs the IP address of the server. It checks multiple cache layers: **Browser → OS → Router → ISP**. If not found, a **Recursive DNS Resolution** kicks off, querying Root servers, TLD servers (.com), and finally the Authoritative server for the domain.
+
+### 2. Connection Establishment (The Handshake)
+Once the IP is known, the browser establishes a connection:
+*   **TCP 3-Way Handshake**: Ensures a reliable connection is established between client and server.
+*   **TLS Handshake**: Wraps the connection in encryption for security (HTTPS).
+
+### 3. HTTP Request & Response
+The browser sends an **HTTP GET** request for the resource. The server processes this (often through load balancers and reverse proxies) and streams back the HTML, CSS, and JavaScript.
+
+### 4. Browser Rendering (The Painting)
+The browser engine takes over to display the page:
+1.  **Parsing**: Converts HTML to the DOM tree and CSS to the CSSOM tree.
+2.  **Render Tree**: Combines DOM and CSSOM to determine what's visible.
+3.  **Layout**: Calculates the exact position and size of each element.
+4.  **Painting**: Fills in pixels on the screen.
+
+> [!TIP]
+> **Performance Optimization**: Techniques like **DNS Prefetching**, **TCP Fast Open**, and **CDN Caching** are used to minimize the latency of these steps, making the page feel "instant."
