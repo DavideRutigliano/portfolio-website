@@ -11,7 +11,7 @@ I'm **Davide Rutigliano**, a Senior Platform Engineer building GPU-accelerated K
 
 ## What is this Site?
 
-This is my personal corner of the internet. A place to share my personal views, document what I learn, and connect with others in the field. Browse my [portfolio](/portfolio/) for featured projects, read my [blog](/blog/) for thoughts on platform engineering, or check out my [notes](/notes/) for quick technical references.
+This is my personal corner of the internet. A place to share my personal views, document what I learn, and connect with others in the field. Browse my [portfolio](/portfolio-website/portfolio/) for featured projects, read my [blog](/portfolio-website/blog/) for thoughts on platform engineering, or check out my [notes](/portfolio-website/notes/) for quick technical references.
 
 ## What I Do
 
