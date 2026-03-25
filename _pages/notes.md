@@ -22,7 +22,7 @@ A collection of technical notes, reference materials, and things I've learned al
   {% assign c_cat = parts[1] %}
   {% assign title = parts[2] %}
   
-  <div id="{{ m_cat }}-{{ c_cat }}" class="notes-category-container" style="position: absolute; left: -9999px; visibility: hidden; height: 0; overflow: hidden;">
+  <div id="{{ m_cat }}-{{ c_cat }}" class="notes-category-container" style="display: none;">
     
     {% assign current_macros = site.notes | where: "macro_category", m_cat %}
     {% assign current_notes = current_macros | where: "category", c_cat | sort: "order" %}
@@ -30,17 +30,15 @@ A collection of technical notes, reference materials, and things I've learned al
     {% if current_notes.size > 0 %}
       <div class="custom-right-toc" style="float: right; width: 250px; position: sticky; top: 4em; padding-left: 1em; border-left: 1px solid #eee; margin-top: 2em; margin-bottom: 2em;">
         <h4 style="margin-top: 0; margin-bottom: 0.5em; font-size: 1em;">Concepts</h4>
-        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.85em;">
-        {% for post in current_notes %}
-          <li style="margin-bottom: 0.5em;"><a href="#{{ post.title | slugify }}" onclick="document.getElementById('{{ post.title | slugify }}').scrollIntoView({behavior: 'smooth', block: 'start'}); return false;" style="text-decoration: none; color: inherit;">{{ post.title }}</a></li>
-        {% endfor %}
+        <ul class="dynamic-toc-list" style="list-style: none; padding: 0; margin: 0; font-size: 0.85em;">
+          <!-- Populated by JS -->
         </ul>
       </div>
 
-      <div class="notes-category-main" style="width: calc(100% - 270px); float: left;">
+      <div class="notes-category-main" style="width: calc(100% - 270px); float: left; min-height: 600px;">
         <h2>{{ title }}</h2>
         {% for post in current_notes %}
-          <div id="{{ post.title | slugify }}" class="note-content" style="padding-top: 2em;">
+          <div class="note-content" style="padding-top: 2em;">
             {{ post.content }}
           </div>
           {% unless forloop.last %}<hr class="note-separator">{% endunless %}
@@ -55,25 +53,62 @@ A collection of technical notes, reference materials, and things I've learned al
 {% endfor %}
 
 <script>
+function generateTOC(containerId) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    
+    var tocList = container.querySelector('.dynamic-toc-list');
+    if (!tocList) return;
+    
+    tocList.innerHTML = '';
+    var headers = container.querySelectorAll('.note-content h2, .note-content h3');
+    
+    headers.forEach(function(h, index) {
+        if (!h.id) {
+            h.id = 'heading-' + containerId + '-' + index;
+        }
+        
+        var li = document.createElement('li');
+        li.style.marginBottom = '0.5em';
+        if (h.tagName === 'H3') {
+            li.style.paddingLeft = '1em';
+            li.style.fontSize = '0.95em';
+            li.style.opacity = '0.8';
+        }
+        
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.style.textDecoration = 'none';
+        a.style.color = 'inherit';
+        a.onclick = function(e) {
+            e.preventDefault();
+            h.scrollIntoView({behavior: 'smooth', block: 'start'});
+            if(history.pushState) {
+                history.pushState(null, null, '#' + h.id);
+            }
+        };
+        
+        li.appendChild(a);
+        tocList.appendChild(li);
+    });
+}
+
 function showCategory(targetId, el) {
     /* Hide all category containers */
     var containers = document.querySelectorAll('.notes-category-container');
     containers.forEach(function(c) {
-        c.style.position = 'absolute';
-        c.style.left = '-9999px';
-        c.style.visibility = 'hidden';
-        c.style.height = '0';
-        c.style.overflow = 'hidden';
+        c.style.display = 'none';
     });
+    
+    var welcome = document.getElementById('notes-welcome');
+    if (welcome) welcome.style.display = 'none';
     
     /* Show the target container */
     var target = document.getElementById(targetId);
     if (target) {
-        target.style.position = 'static';
-        target.style.left = 'auto';
-        target.style.visibility = 'visible';
-        target.style.height = 'auto';
-        target.style.overflow = 'visible';
+        target.style.display = 'block';
+        generateTOC(targetId);
     }
     
     /* Update active state in sidebar */
