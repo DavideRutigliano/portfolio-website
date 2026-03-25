@@ -18,6 +18,8 @@ A Kubernetes operator designed to streamline LLM deployments.
 - **Prefix-Aware Routing**: Directs requests to pods that already have the relevant KV cache.
 - [KubeAI.org](https://kubeai.org)
 
+![KubeAI Architecture](https://github.com/kubeai-project/kubeai/raw/main/docs/diagrams/arch.excalidraw.png)
+
 ## LLM-D (LLM Deployer)
 A high-performance stack focusing on **Disaggregated Serving**.
 
