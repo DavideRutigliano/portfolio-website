@@ -11,72 +11,84 @@ toc: true
 
 Kubernetes observability is the process of collecting and analyzing **metrics**, **logs**, and **traces** (the "three pillars of observability") to understand the internal state, performance, and health of a cluster.
 
-## Prometheus and Node Exporter Architecture
+## 1. Prometheus Architecture
 
-Prometheus gathers system metrics through a pull-based model, typically interacting with **Node Exporter** to collect hardware and OS-level telemetry.
+Prometheus is an open-source systems monitoring and alerting toolkit. It is designed for reliability and is the industry standard for cloud-native observability.
 
-### The Flow of Metrics
+![Prometheus Architecture](https://prometheus.io/assets/docs/architecture.svg)
 
-Node Exporter acts as a stateless translator between the Linux Kernel and Prometheus. When Prometheus initiates a scrape, Node Exporter simultaneously queries the kernel's virtual filesystems (`/proc` and `/sys`) and converts the raw data into the human-readable **Prometheus Exposition Format**. 
-
-```mermaid
-sequenceDiagram
-    participant Prometheus as Prometheus Server
-    participant NodeExporter as Node Exporter
-    participant Collectors as Collectors (CPU, Mem, Disk...)
-    participant Kernel as Linux Kernel (/proc, /sys)
-
-    Note over Prometheus,NodeExporter: 1. Scrape Request
-    Prometheus->>NodeExporter: GET /metrics
-
-    Note over NodeExporter,Collectors: 2. Gather Metrics
-    NodeExporter->>Collectors: Collect()
-
-    par [Parallel Collection]
-        Collectors->>Kernel: Read /proc/stat (CPU)
-        Collectors->>Kernel: Read /proc/meminfo (Memory)
-        Collectors->>Kernel: Read /proc/diskstats (Disk I/O)
-        Collectors->>Kernel: Syscalls (Netlink etc.)
-    end
-    
-    Kernel-->>Collectors: Raw System Data
-    Collectors-->>NodeExporter: Prometheus Metrics (Structs)
-
-    Note over Prometheus,NodeExporter: 3. Exposition
-    NodeExporter-->>Prometheus: Response (Plain Text)
-```
-
-### Deep Dive: Collectors
-
-Internally, Node Exporter delegates metric gathering to specialized modules called **Collectors**:
-
-*   **CPU Collector (`cpu`)**: Reads `/proc/stat` to retrieve CPU time categorized by mode (e.g., USER, SYSTEM, IDLE). These are exposed as counters (like `node_cpu_seconds_total`), and Prometheus is responsible for calculating actual usage metrics via functions like `rate()`.
-*   **Memory Collector (`meminfo`)**: Parses `/proc/meminfo` and converts memory statistics into bytes (e.g., `node_memory_MemTotal_bytes`).
-*   **Filesystem Collector (`filesystem`)**: Issues `statfs` system calls for mounted filesystems to retrieve storage capacity and Inode information.
-
-## 1. Metrics
-Kubernetes components emit metrics in **Prometheus format** via `/metrics` endpoints.
-
-*   **Key Components:** `kube-apiserver`, `kube-scheduler`, `kube-controller-manager`, `kubelet`, and `kube-proxy`.
-*   **Kubelet Endpoints:** Also exposes `/metrics/cadvisor` (container stats), `/metrics/resource`, and `/metrics/probes`.
-*   **Enrichment:** Tools like `kube-state-metrics` add context about Kubernetes object status.
-*   **Pipeline:** Metrics are typically scraped periodically and stored in a TSDB (e.g., Prometheus, Thanos, Cortex).
-
-## 2. Logs
-Logs provide a chronological record of events from applications, system components, and audit trails.
-
-*   **Application Logs:** Captured by the container runtime from `stdout`/`stderr`. Standardized via CRI logging format and accessible via `kubectl logs`.
-*   **System Logs:**
-    *   **Host-level:** `kubelet` and container runtimes (often write to `journald` or `/var/log`).
-    *   **Containerized:** `kube-scheduler` and `kube-proxy` (usually write to `/var/log`).
-*   **Pipeline:** A node-level agent (e.g., Fluent Bit, Fluentd) tails logs and forwards them to a central store (e.g., Elasticsearch, Loki).
-
-## 3. Traces
-Traces capture the end-to-end flow of requests across components, linking latency and timing.
-
-*   **OTLP Support:** Kubernetes components can export spans using the **OpenTelemetry Protocol (OTLP)**.
-*   **Exporters:** spans can be sent directly via gRPC or through an **OpenTelemetry Collector**.
-*   **Backend:** Traces are processed by the collector and stored in backends like Jaeger, Tempo, or Zipkin.
+### Core Components
+- **Prometheus Server**: Scrapes metrics from instrumented jobs, stores them in a local TSDB, and runs rules over the data.
+- **Service Discovery**: Automatically identifies targets in dynamic environments (like Kubernetes).
+- **Pushgateway**: Supports short-lived jobs that cannot be scraped via the pull model.
+- **Alertmanager**: Handles alerts sent by the Prometheus server, deduplicating, grouping, and routing them to notification providers.
+- **PromQL**: A powerful functional query language designed for time series data.
 
 ---
-**Reference:** [Kubernetes Observability Documentation](https://kubernetes.io/docs/concepts/cluster-administration/observability/)
+
+## 2. Node Exporter Deep Dive
+
+Node Exporter is the standard agent for harvesting hardware and OS metrics from *NIX kernels. It is designed to be **stateless** and lightweight.
+
+### The Flow of Metrics
+Node Exporter doesn't store data. When Prometheus initiates a scrape, Node Exporter reads the current values from the Linux kernel's virtual filesystems (`/proc` and `/sys`) and converts them into the **Prometheus Exposition Format**.
+
+![Node Exporter Sequence](https://media2.dev.to/dynamic/image/width=800,height=,fit=scale-down,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwre7u0tl21f4wbcuk2ss.png)
+
+### Internal Mechanics
+- **Collectors**: Specialized modules (e.g., `cpu`, `meminfo`, `diskstats`) that delegate gathering specific metrics.
+- **Textfile Collector**: Allows exporting custom metrics from static files, useful for batch jobs or hardware RAID status.
+- **No Reliance on Syscalls**: Whenever possible, it reads from `/proc` to avoid the overhead of context switches from system calls.
+
+---
+
+## 3. Remote Write & Scalability
+
+Prometheus **Remote Write** allows shipping time series samples to a remote storage backend immediately after they are scraped and written to the local TSDB.
+
+![Prometheus Remote Write](https://cdn.prod.website-files.com/626a25d633b1b99aa0e1afa7/6949aa8382031e82b2c0c1f1_image1.png)
+
+### Why Remote Write?
+1.  **Long-Term Storage**: Local Prometheus TSDBs are typically optimized for short-term retention (e.g., 15 days). Remote Write enables archiving years of data in cloud storage.
+2.  **Global View**: Consolidate metrics from multiple clusters into a single centralized hub (e.g., Grafana pointing to a central Cortex/Mimir instance).
+3.  **High Availability**: Feed data into distributed systems built for resilience.
+
+### Mechanism: Sharding & Queues
+To handle high throughput, Remote Write uses an in-memory queue managed by concurrent **shards** (worker threads).
+- **Data Ordering**: Samples for the same unique time series are always routed to the same shard to ensure correct ingestion order.
+- **Retry Logic**: Shards implement exponential backoff to handle transient network issues or remote endpoint errors.
+
+---
+
+## 4. Federated Observability: Cortex
+
+**Cortex** is a horizontally scalable, highly available, multi-tenant, long-term storage for Prometheus. It is built as a set of microservices.
+
+![Cortex Architecture](https://cortexmetrics.io/images/architecture.png)
+
+### Key Microservices
+- **Distributor**: Handles incoming samples.
+    - **Consistent Hashing**: Uses a "hash ring" to route data to the correct Ingesters.
+    - **HA Tracker**: Deduplicates samples from redundant Prometheus pairs by tracking leader status via `cluster` and `replica` labels.
+    - **Quorum Writes**: Ensures durability by waiting for a majority of Ingesters to acknowledge the write.
+- **Ingester**: Statefully caches incoming samples in memory.
+    - **WAL (Write Ahead Log)**: Records data before caching to prevent loss during crashes.
+    - **Chunking**: Flushes data blocks to long-term storage (S3, GCS, Azure Blob) once they reach a certain size or age.
+- **Querier**: Executes PromQL queries by fetching data from both Ingesters (for recent data) and long-term storage (via Store Gateway).
+
+---
+
+## Summary: The Metrics Pipeline
+
+*   **Kubernetes Components**: Emit metrics via `/metrics` (e.g., Kubelet, API Server).
+*   **Enrichment**: `kube-state-metrics` adds context about object status.
+*   **Logs**: Nodes use agents like **Fluent Bit** to forward logs to central stores (e.g., Loki).
+*   **Traces**: **OpenTelemetry (OTLP)** standardized spans are processed via OTel Collectors and stored in backends like Tempo or Jaeger.
+
+---
+
+**References:**
+- [Prometheus Architecture Overview](https://prometheus.io/docs/introduction/overview/)
+- [Node Exporter Deep Dive](https://dev.to/kanywst/node-exporter-deep-dive-connecting-the-linux-kernel-and-prometheus-5c6i)
+- [Prometheus Remote Write Guide](https://www.groundcover.com/learn/observability/prometheus-remote-write)
+- [Cortex Architecture](https://cortexmetrics.io/docs/architecture)
