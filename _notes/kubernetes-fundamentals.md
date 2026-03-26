@@ -70,6 +70,30 @@ Based on how you configure requests and limits, Kubernetes assigns one of three 
 
 What happens when you execute `kubectl apply -f deploy.yaml`? (Reference: [what-happens-when-k8s](https://github.com/jamiehannaford/what-happens-when-k8s))
 
+```mermaid
+sequenceDiagram
+    participant K as kubectl (Client)
+    participant A as kube-apiserver
+    participant E as etcd
+    participant C as Controllers
+    participant S as Scheduler
+    participant KL as Kubelet (Node)
+
+    K->>A: Apply Manifest (POST/PUT)
+    Note over A: Authentication, Authorization,<br/>Admission Control
+    A->>E: Store Resource (etcd)
+    A-->>K: 200 OK
+    
+    C->>A: Watch: New Resource
+    C->>A: Create ReplicaSet & Pods
+    
+    S->>A: Watch: Unscheduled Pods
+    S->>A: Bind Pod to Node
+    
+    KL->>A: Watch: Pod Assigned
+    Note over KL: CRI: Pull Image & Start<br/>CNI: Network Setup<br/>CSI: Mount Volumes
+```
+
 ### 1. Client Side (kubectl)
 - **Validation**: Client-side linting and validation of the manifest.
 - **Generators**: Assembling the HTTP request (converting YAML to JSON).
