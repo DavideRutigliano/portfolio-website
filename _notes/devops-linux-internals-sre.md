@@ -11,7 +11,7 @@ permalink: /notes/devops-linux-internals-sre/
 
 When engineers ask about "Linux Internals," they are often testing whether you understand how the OS affects your application performance. You don't need to memorize the kernel source code; you just need to know where the "knobs" are and how to interpret common metrics.
 
-## 1-Minute Troubleshooting Guide
+## Linux Server Review (The 'SadServers' Way)
 
 ![One Minute Troubleshooting](https://docs.sadservers.com/images/one-minute.png)
 
@@ -20,37 +20,56 @@ If a process is slow or crashing, the problem is almost always one of these four
 
 ---
 
-## 1. The "Three Types of Wait"
-When a system is slow, identify which resource is the bottleneck:
-
-*   **CPU-bound**: The task spends most of its time performing computations. 
-    *   **Symptoms**: High CPU usage (>90%) in `top`/`htop`. Load Average significantly higher than the number of CPU cores.
-*   **I/O-bound**: The CPU is stuck waiting for storage operations to complete.
-    *   **Symptoms**: High **`%wa`** (iowait) in `top`. Check `iostat` for disk utilization.
-*   **Network-bound**: A specific type of I/O wait where the bottleneck is network throughput or latency.
-    *   **Symptoms**: Latency in `curl` or database queries despite low CPU/Disk usage.
+## 1. Quick Triage (Load & Basics)
+*   `uptime`: Check load averages (1, 5, 15 min). Load > # of cores = saturation.
+*   `top` / `htop`: Real-time view of processes and resource consumers.
+*   `ps auxf`: Process tree; `f` shows parent/child relationships (useful for identifying worker leaks).
+*   `uname -a` & `cat /etc/debian_version`: Quick check of kernel and distro version.
 
 ---
 
-## 2. Memory Internals
-Understanding memory usage is more than just looking at "Total Memory."
-
-### RSS vs. VIRT
-*   **VIRT (Virtual Memory)**: The total address space a process has reserved. This includes everything: shared libraries, memory mapped files, and memory allocated but not yet used.
-*   **RSS (Resident Set Size)**: The actual physical RAM the process is consuming right now. **This is what matters for capacity planning.**
-
-### The OOMKiller (Out Of Memory)
-When the kernel runs out of RAM + Swap, it invokes the **OOMKiller** to save the system from crashing.
-*   **Badness Score (`oom_score`)**: The kernel calculates a score for each process. Higher score = first to be killed.
-*   **Factors**: Large memory footprint, shorter-lived processes, and non-privileged users are penalized more.
-*   **Adjustment**: You can protect critical processes (like your database) by setting a negative value in `/proc/[PID]/oom_score_adj` (from -1000 to 1000).
+## 2. CPU & Performance
+*   `mpstat -P ALL 1`: Check CPU balance. Are all cores busy, or just one (single-threaded bottleneck)?
+*   `pidstat 1`: Per-process CPU usage. Identify which PID is specifically spiking.
+*   `lscpu`: Verify CPU architecture and core count.
 
 ---
 
-## 3. Isolation: Namespaces & Cgroups
-How containers (Docker/K8s) actually work under the hood.
+## 3. Memory & Virtual Memory
+*   `free -m`: Quick overview of used/cached/free memory.
+*   `vmstat 1`: Check `r` (runnable) and `b` (uninterruptible sleep/disk wait). High `si`/`so` means swapping!
+*   `grep -i oom /var/log/syslog`: Check if the OOMKiller has been active recently.
 
-### Linux Namespaces (Boundaries)
+---
+
+## 4. Disk & I/O
+*   `df -h`: Check for full filesystems. 100% disk = certain failure for most apps.
+*   `df -i`: Check for **Inode exhaustion**. You can have GBs free but 0 inodes.
+*   `iostat -xz 1`: Check `%util`. If a disk is at 100% util, it's the bottleneck.
+*   `lsblk -f`: List block devices and their filesystems.
+*   `du -mxS / | sort -n | tail -10`: Find the top 10 largest files in a directory.
+
+---
+
+## 5. Networking & Connectivity
+*   `ss -tlpn`: (Socket Stat) What processes are listening on which ports?
+*   `ss -s`: Summary of socket statistics (TCP/UDP/ESTAB).
+*   `ip -s link`: Check for interface errors or dropped packets.
+*   `netstat -i`: Network interface statistics.
+*   `iptables -L -n -t nat`: Check firewall and NAT rules (don't forget `-t nat` for K8s/Docker!).
+
+---
+
+## 6. Logs & systemd
+*   `journalctl -xe`: View the most recent system logs with explanations.
+*   `journalctl -u nginx`: View logs for a specific service.
+*   `journalctl -k`: View kernel messages (equivalent to `dmesg`).
+*   `systemctl --failed`: List all units that failed to start.
+*   `systemd-analyze blame`: See which services are making boot-up slow.
+
+---
+
+## 7. Isolation & Namespaces (Boundaries)
 Namespaces define what a process can **see**. They create isolated views of system resources.
 
 ![Linux Namespaces](https://digitalpress.fra1.cdn.digitaloceanspaces.com/bzg4z45/2025/07/linux-namespaces-types.webp)
