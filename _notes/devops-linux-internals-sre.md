@@ -40,6 +40,14 @@ If a process is slow or crashing, the problem is almost always one of these four
 *   `vmstat 1`: Check `r` (runnable) and `b` (uninterruptible sleep/disk wait). High `si`/`so` means swapping!
 *   `grep -i oom /var/log/syslog`: Check if the OOMKiller has been active recently.
 
+#### Virtual vs. Physical Memory (VIRT vs. RSS)
+*   **VIRT (Virtual Memory)**: The absolute total memory a process can "see". It includes shared libraries, swapped out pages, and memory requested via `malloc()` but not yet used.
+*   **RSS (Resident Set Size)**: The actual amount of physical RAM the process is using right now.
+*   **Lazy Allocation (Demand Paging)**:
+    1.  When a process calls `malloc()`, the kernel gives it **Virtual Memory** (VIRT increases). It's just a "promise" of space.
+    2.  The kernel only allocates **Physical Memory** (RSS increases) when the process actually **touches** the address (reads or writes).
+    3.  This first touch triggers a **Page Fault**, and the kernel then maps a real physical page to that virtual address.
+
 ---
 
 ## 4. Disk & I/O
@@ -102,17 +110,9 @@ An **Inode** is a data structure containing metadata about a file (permissions, 
 ### File Descriptors (FD)
 A **File Descriptor** is a process-level integer that index into the kernel's open file table. By default, 0 is stdin, 1 is stdout, and 2 is stderr.
 
----
-
-## Practical Troubleshooting Workflow
-When you log into a server (The "SadServers" Way):
-
-1.  **Characterize**: `sudo ss -tlpn` (what's listening?) and `ps auxf` (what's running?).
-2.  **Saturation**: `uptime` (load), `free -m` (memory), `df -h` (disk space).
-3.  **Logs**: `journalctl -p err` (errors) or `tail -f /var/log/syslog`.
 
 ---
 
-*Sources: [SadServers](https://docs.sadservers.com/docs/scenario-guides/practical-linux-server-review/), [Dev.to - Linux FS](https://dev.to/kanywst/linux-file-system-architecture-a-deep-dive-into-vfs-inodes-and-storage-1n9), [ByteByteGo]*
+*Sources: [SadServers](https://docs.sadservers.com/docs/troubleshooting/linux-server-review/), [Dev.to - Linux FS](https://dev.to/kanywst/linux-file-system-architecture-a-deep-dive-into-vfs-inodes-and-storage-1n9), [ByteByteGo]*
 
 *Last updated: 2026-03-26*
