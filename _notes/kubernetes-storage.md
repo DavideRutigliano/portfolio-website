@@ -66,8 +66,11 @@ A namespace-scoped request for storage. It’s like a "voucher" that a Pod uses 
 - **Binds**: A PVC binds to a matching PV based on size and access modes.
 - **Access Modes**:
     - `ReadWriteOnce` (RWO): One node can mount as read-write.
+        - **Why**: Typically used for **Block Storage** (e.g., AWS EBS, Azure Disk). The filesystem is managed by the node's kernel; concurrent access to the same raw block device from multiple nodes would lead to data corruption.
     - `ReadOnlyMany` (ROX): Many nodes can mount as read-only.
+        - **Why**: Useful for sharing static data or assets (e.g., a shared web-server directory) across multiple Pods.
     - `ReadWriteMany` (RWX): Many nodes can mount as read-write.
+        - **Why**: Requires **File Storage** (e.g., NFS, Azure Files, Amazon EFS). The storage backend handles file-level locking and concurrency, allowing multiple nodes to read/write safely.
 
 ### 3. StorageClasses
 Policies for **Dynamic Provisioning**. Instead of manually creating PVs, an administrator defines a `StorageClass`. When a PVC request comes in, the cluster creates a PV on the fly.
