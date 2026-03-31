@@ -147,6 +147,10 @@ kubectl port-forward svc/my-service 8080:80
 
 # Check RBAC permissions (Can I create deployments in this namespace?)
 kubectl auth can-i create deployments
+
+# List everything in a namespace
+kubectl api-resources --verbs=list --namespaced -o name \
+  | xargs -n 1 kubectl get --show-kind --ignore-not-found -l <label>=<value> -n <namespace>
 ```
 
 ### Common Issues
