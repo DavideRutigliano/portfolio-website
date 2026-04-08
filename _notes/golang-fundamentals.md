@@ -67,11 +67,41 @@ Go handles memory allocation and deallocation automatically.
 - **Concurrency**: Dealing with many things at once (structure).
 - **Parallelism**: Doing many things at once (execution on multi-core).
 
-### Golang Scheduler (GOM-P Model)
-- **G (Goroutine)**: State of a goroutine.
-- **M (Machine)**: OS Thread.
-- **P (Processor)**: Resource required to execute Go code (defines concurrency limit, default `GOMAXPROCS`).
-- **Work Stealing**: Idle Ps can steal Gs from other Ps' local queues.
+### Golang Scheduler (G-M-P Model)
+The Go scheduler is a **cooperating scheduler** that multiplexes Goroutines onto OS threads.
+- **G (Goroutine)**: Application-level "threads". Managed by Go runtime, not OS.
+    - *Efficient context-switching*: Happens in user space, avoiding expensive kernel calls.
+    - *Dynamic Stacks*: Start at ~2KB and grow/shrink as needed.
+- **M (Machine)**: OS/Kernel Thread. The actual execution unit.
+    - *Relation to P*: An M must be associated with a P to execute Go code. The OS schedules Ms onto physical CPU cores.
+- **P (Processor)**: A logical resource (context) required to run Gs.
+    - *Concurrency limit*: Defaults to the number of virtual cores (`GOMAXPROCS`).
+    - *Queue Manager*: Each P owns a Local Run Queue (LRQ).
+
+### Run Queues & Execution Flow
+The scheduler uses two types of queues to manage Goroutines:
+- **LRQ (Local Run Queue)**: Each P has one, managing Gs ready for execution on that P.
+- **GRQ (Global Run Queue)**: Stores Gs not yet assigned to a specific P (e.g., after being created or moved from a blocking P).
+
+#### Scheduling Algorithm (Work Stealing)
+To keep all Ms busy, the scheduler follows this priority when a P needs a new G:
+1. **Check LRQ**: P picks a G from its local queue.
+2. **Fairness (1/61)**: Every 61 ticks, P checks the **GRQ** first to prevent starvation of global Gs.
+3. **Work Stealing**: if LRQ is empty, P tries to steal half the Gs from another P's LRQ.
+4. **Check GRQ**: If no work can be stolen, P checks the GRQ.
+5. **Network Poller**: If still no work, check for Gs ready from async I/O.
+
+#### Workload Concurrency: CPU-Bound vs I/O-Bound
+Understanding the workload is key to determining if concurrency will actually improve performance:
+- **CPU-Bound**: Calculations that keep the processor busy without natural waiting states (e.g., sorting, complex math).
+    - *Semantics*: Requires **parallelism** (multiple cores) to scale. Context switching pure CPU tasks on a single core adds overhead without "free" downtime, potentially slowing down the program.
+- **I/O-Bound**: Tasks that involve waiting for external resources (e.g., network, disk, mutexes). 
+    - *Semantics*: Concurrency is highly effective even on a **single core**. When a Goroutine blocks on I/O, the scheduler context-switches it out for a ready G, ensuring the CPU doesn't sit idle.
+
+#### References
+- [Scheduling In Go : Part II - Go Scheduler (Ardan Labs)](https://www.ardanlabs.com/blog/2018/08/scheduling-in-go-part2.html)
+- [Scheduling In Go : Part III - Concurrency (Ardan Labs)](https://www.ardanlabs.com/blog/2018/12/scheduling-in-go-part3.html)
+- [Scalable Go Scheduler Design Doc](https://docs.google.com/document/d/1TTj4T2JO42uD5ID9e89oa0sLKhJYD0Y_kqxDv3I3XMw/edit?tab=t.0)
 
 ### Race Conditions
 - Occur when multiple goroutines access the same memory concurrently and at least one access is a write.
