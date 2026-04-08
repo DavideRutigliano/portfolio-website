@@ -68,6 +68,7 @@ Go handles memory allocation and deallocation automatically.
 - **Parallelism**: Doing many things at once (execution on multi-core).
 
 ### Golang Scheduler (G-M-P Model)
+![Go Scheduler GMP Model](https://i.imgur.com/wThLAbQ.png)
 The Go scheduler is a **cooperating scheduler** that multiplexes Goroutines onto OS threads.
 - **G (Goroutine)**: Application-level "threads". Managed by Go runtime, not OS.
     - *Efficient context-switching*: Happens in user space, avoiding expensive kernel calls.
