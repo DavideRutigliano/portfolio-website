@@ -94,7 +94,7 @@ Cgroups define how much a process can **use**. They enforce resource limits (CPU
 
 ---
 
-## 4. Virtual File System (VFS) & Storage
+## 8. Virtual File System (VFS) & Storage
 Linux treats "everything as a file" via the **VFS** abstraction layer.
 
 ### Inodes (The File's Identity)
@@ -110,9 +110,43 @@ An **Inode** is a data structure containing metadata about a file (permissions, 
 ### File Descriptors (FD)
 A **File Descriptor** is a process-level integer that index into the kernel's open file table. By default, 0 is stdin, 1 is stdout, and 2 is stderr.
 
+---
+
+## 9. eBPF (Extended Berkeley Packet Filter)
+eBPF is a revolutionary technology that allows running sandboxed programs inside the Linux kernel without modifying the kernel source code or loading external kernel modules. It provides high-performance, safe observability, networking, and security.
+
+### How eBPF Works (The Lifecycle)
+1. **Compilation**: Write eBPF program (typically in C, Go, or Rust) and compile it into eBPF bytecode using LLVM/Clang.
+2. **Loading**: Load bytecode into the kernel using the `bpf()` system call.
+3. **Verification (Safety)**: The kernel **Verifier** statically analyzes the program to ensure it is safe (e.g., no infinite loops, no out-of-bounds memory access, must terminate, cannot crash the kernel).
+4. **JIT Compilation**: The kernel compiles the bytecode into native machine instructions for maximum execution speed.
+5. **Event Attachment**: The program is attached to a specific kernel hook (e.g., kprobes, tracepoints, network packets). When the event fires, the eBPF program runs.
+6. **Data Sharing (Maps)**: eBPF programs use **BPF Maps** (key-value stores in kernel memory) to share data (metrics, logs, configurations) with user-space applications.
+
+```mermaid
+graph TD
+    A[User Space: C/Go/Rust Program] -->|bpf syscall| B[Kernel Space: Verifier]
+    B -->|Passed Safety Checks| C[JIT Compiler]
+    C --> D[Native Machine Code]
+    D -->|Attach Hook| E[Kernel Events: syscalls, kprobes, net packets]
+    D <-->|Read/Write| F[(BPF Maps)]
+    A <-->|Read/Write| F
+```
+
+### eBPF Hook Points & Tracing Types
+*   **kprobes (Kernel Probes)**: Dynamic hooks on any kernel function entry (`kprobe`) or return (`kretprobe`). Highly flexible but unstable (can break across kernel versions).
+*   **uprobes (User Probes)**: Dynamic hooks on user-space applications (e.g., tracing a function in a Go binary or monitoring HTTPS traffic).
+*   **Tracepoints**: Static trace hooks compiled directly into the kernel by developers. Stable API but limited to predefined points.
+*   **XDP (eXpress Data Path)**: Attaches directly to the network driver interface. Allows packet filtering, redirection, or dropping at the earliest possible stage (before allocating kernel socket buffers (`sk_buff`)), enabling extremely fast DDoS mitigation.
+
+### Key Tools & Projects
+*   **`bpftrace`**: A high-level tracing compiler that allows writing quick one-liners (similar to `awk` or `dtrace`) for ad-hoc debugging.
+*   **BCC (BPF Compiler Collection)**: A framework for building complex tracing scripts, utilizing Python/C to inspect and manipulate kernel state.
+*   **Cilium**: An eBPF-powered CNI (Container Network Interface) for Kubernetes providing cloud-native networking, load balancing, and security.
+*   **Tetragon**: An eBPF-based security observability agent providing real-time runtime enforcement.
 
 ---
 
-*Sources: [SadServers](https://docs.sadservers.com/docs/troubleshooting/linux-server-review/), [Dev.to - Linux FS](https://dev.to/kanywst/linux-file-system-architecture-a-deep-dive-into-vfs-inodes-and-storage-1n9), [ByteByteGo]*
+*Sources: [SadServers](https://docs.sadservers.com/docs/troubleshooting/linux-server-review/), [Dev.to - Linux FS](https://dev.to/kanywst/linux-file-system-architecture-a-deep-dive-into-vfs-inodes-and-storage-1n9), [ByteByteGo], [eBPF.io](https://ebpf.io/)*
 
-*Last updated: 2026-03-26*
+*Last updated: 2026-06-20*
