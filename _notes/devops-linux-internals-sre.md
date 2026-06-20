@@ -133,6 +133,33 @@ graph TD
     A <-->|Read/Write| F
 ```
 
+### eBPF Maps (Data Sharing & Communication)
+eBPF programs are isolated and cannot access arbitrary kernel memory. To communicate with user-space applications (or share state between different eBPF programs), they use **BPF Maps**—efficient, key-value data structures residing in kernel space.
+
+#### 1. Core Map Types & Use Cases
+*   **Hash Tables (`BPF_MAP_TYPE_HASH` / BCC `BPF_HASH`)**:
+    *   Store key-value pairs of arbitrary sizes.
+    *   *Example*: Mapping a syscall ID (key) to a counter (value) to count system calls across the OS (e.g., in Liz Rice's `hello-map.py` example).
+*   **Arrays (`BPF_MAP_TYPE_ARRAY` / BCC `BPF_ARRAY`)**:
+    *   Fixed-size arrays indexed by integer keys from `0` to `max_entries - 1`. Faster lookups but cannot delete elements.
+*   **Perf Buffer (`BPF_MAP_TYPE_PERF_EVENT_ARRAY` / BCC `BPF_PERF_OUTPUT`)**:
+    *   Used for streaming structured events from the kernel to user space.
+    *   Allocates a memory buffer per CPU core. Can lead to out-of-order events or packet loss under high-throughput conditions if the buffer fills up.
+*   **Ring Buffer (`BPF_MAP_TYPE_RINGBUF` / BCC `BPF_RINGBUF_OUTPUT`)**:
+    *   Introduced in Linux 5.8 to replace the Perf Buffer.
+    *   Uses a single, lockless ring buffer shared across all CPU cores. Solves memory fragmentation, improves performance, and guarantees in-order event delivery.
+*   **Program Array (`BPF_MAP_TYPE_PROG_ARRAY`)**:
+    *   Stores file descriptors of other loaded eBPF programs, enabling **Tail Calls** (jumping from one eBPF program to another to bypass the program size limit or modularize processing).
+
+#### 2. Key Map Operations (C Helper Functions)
+Within an eBPF program, helpers are used to manipulate map elements safely:
+*   `void *bpf_map_lookup_elem(map, &key)`: Returns a pointer to the value associated with the key, or `NULL` if not found. **Important**: The eBPF verifier requires you to null-check the returned pointer before dereferencing it.
+*   `long bpf_map_update_elem(map, &key, &value, flags)`: Inserts or updates a key-value pair.
+*   `long bpf_map_delete_elem(map, &key)`: Deletes the key-value pair.
+
+#### 3. Configuration & Interaction
+User-space programs configure and query maps using library APIs (e.g., BCC Python wrapper `b["config"][key] = value` or libbpf API calls), which under the hood invoke the `bpf(BPF_MAP_LOOKUP_ELEM, ...)` system calls using the map's file descriptor.
+
 ### eBPF Hook Points & Tracing Types
 *   **kprobes (Kernel Probes)**: Dynamic hooks on any kernel function entry (`kprobe`) or return (`kretprobe`). Highly flexible but unstable (can break across kernel versions).
 *   **uprobes (User Probes)**: Dynamic hooks on user-space applications (e.g., tracing a function in a Go binary or monitoring HTTPS traffic).
