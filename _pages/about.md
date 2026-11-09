@@ -22,9 +22,9 @@ I specialize in building internal platforms and developer tools that scale. My w
 - 🧠 **vLLM & GenAI Observability**: Engineered OpenTelemetry connectors to instrument vLLM inference (TTFT, KPIs), enabling on-call triage for multi-tenant GPU inference platform
 - ⚡ **High-performance GPU Monitoring**: Engineered GPU observability solution for Kubernetes/KubeVirt (NVIDIA MIG/vGPU), unlocking 40+% HPC efficiency
 - 🚀 **62% infrastructure cost reduction** ($100K+ annual savings) by architecting Kubernetes Cluster Auto-scaling with Cluster API across AWS, GCP, and on-prem
-- 🤖 **Built the SUSE Observability MCP Server** from idea to MVP, embedding LLM-driven analysis directly into the alerting pipeline — recognized by senior leadership for production hardening
+- 💸 **80% GPU infrastructure cost reduction** (~$1.7M/year) at PhysicsX with GPU sharing (HAMi-core, KAI, MIG), KServe scale-to-zero and JupyterHub notebook culling
 - 🔄 **Designed VM migration orchestration** with a Kubernetes operator enabling 100+ VMs migration from KVM to Harvester
-- 📊 **Architected federated observability** migration to SUSE Observability (StackState), cutting troubleshooting time by 25%
+- ⏱️ **Inference cold-start from 5 minutes to 30s** with a pre-warming mechanism using Karpenter CapacityBuffer nodes and a custom pre-pull DaemonSet
 
 ## 🛠 Skills
 

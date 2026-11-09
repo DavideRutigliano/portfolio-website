@@ -14,79 +14,90 @@ redirect_from:
 
 ## Summary
 
-Senior Platform Engineer building GPU-accelerated Kubernetes platforms for AI/HPC workloads. Specialized in inference observability (vLLM, TTFT, OpenTelemetry) and cluster lifecycle operations across cloud and bare-metal environments. Open-source contributor: Kubernetes, Kueue and KubeAI (vLLM operator).
+Senior Platform Engineer focused on GPU infrastructure for AI training and inference. Builds Kubernetes/Slurm scheduling, GPU sharing, and fleet observability for multi-tenant workloads, with measurable improvements in utilization and cost.
+
+## Open Source
+
+- **KubeAI (vLLM operator)**: Maintainer (feature design, code reviews, releases) · *2025 – Present*
+- **Cloud Native Computing Foundation (CNCF)**: Contributor (bug fixes and documentation) · *2025 – Present*
 
 ## Experience
 
-### SUSE
-**Senior Platform Engineer** · Remote, Italy · *Dec 2025 – Present*
+### PhysicsX
+**Senior Platform Engineer** · Remote, Italy · *Sep 2026 – Present*
 
-- **vLLM & GenAI Observability**: Engineered OpenTelemetry (OTel) connectors to instrument vLLM inference (Time-to-First-Token and related KPIs), enabling on-call triage for multi-tenant GPU inference platform.
-- **High-performance GPU Monitoring**: Engineered GPU observability solution for Kubernetes and KubeVirt clusters, enabling fine-grained monitoring of NVIDIA A2/H100 with MIG and vGPU segmentation, unlocking 40+% HPC efficiency.
-- **Cluster lifecycle & Autoscaling**: Optimized platform efficiency achieving a 62% reduction in infrastructure costs ($100K+ annual savings), by deploying Cluster Autoscaling with Cluster API on multi-cloud (AWS, GCP, On-Prem) platform.
-- **AI-driven Observability**: Architected and delivered the SUSE Observability MCP Server from greenfield idea to MVP, embedding LLM-driven analysis into the alerting pipeline; recognized by senior leadership for roadmap inclusion.
-- **Infrastructure Automation**: Designed and implemented a Kubernetes operator to orchestrate large-scale virtual machine migrations from KVM to Harvester, enabling the migration of 100+ VMs.
+- **GPU Compute Efficiency**: Designed and implemented GPU sharing with HAMi-core, KAI, and MIG, and deployed KServe scale-to-zero and JupyterHub notebook culling, cutting GPU infrastructure spend by 80% ($34K/week, about $1.7M/year).
+- **Cloud Cost Reductions**: Optimized cross-region, storage, and networking overhead by deploying regional ECR pull-through caches, S3 Gateway Endpoints and ECR/EBS cleanup policies, achieving $50K+/month in recurring cloud cost savings.
+- **LPM Training Infrastructure**: Deployed Slurm on Kubernetes (via Slinky) across InfiniBand-capable GPU nodes, enabling multi-GPU physics simulations and Large Physics Model training.
+- **Virtualized GPU Workloads**: Deployed KubeVirt-based VM environment with GPU passthrough to unify Windows CAD and CFD simulation on a single Kubernetes control plane.
+- **Inference Cold-start**: Reduced inference cold-start latency from 5 minutes down to 30s by architecting a pre-warming mechanism using Karpenter CapacityBuffer nodes and a custom pre-pull DaemonSet.
+
+*Stack: Kubernetes, NVIDIA GPUs, AI Training, AI Inference, HPC simulation, Slurm, Observability, Crossplane, ArgoCD, Go*
+
+---
+
+### SUSE
+**Senior Platform Engineer** · Remote, Italy · *Jan 2026 – Sep 2026*
+
+- **LLM Inference Observability**: Instrumented vLLM with OpenTelemetry collectors to track time to first token (TTFT) and related inference KPIs, enabling on-call diagnosis for a multi-tenant GPU serving platform.
+- **GPU Monitoring**: Built GPU observability for Kubernetes and KubeVirt with NVIDIA DCGM and OpenTelemetry, monitoring A2 and H100 GPUs across MIG and vGPU configurations.
+- **Cluster Autoscaling**: Reduced infrastructure costs by 62% ($100K+/year) across AWS, GCP, and on-premises environments by deploying Kubernetes autoscaler via Cluster API (CAPI) and consolidating workloads through bin-packing and Descheduler.
+- **Kubernetes CNI Migration**: Achieved an 11x increase in network throughput by migrating from Canal to Cilium after using custom eBPF probes to identify a VXLAN encapsulation and iptables/conntrack bottleneck.
 
 **Platform Engineer** · Remote, Italy · *Jan 2025 – Dec 2025*
 
-- **Infrastructure Governance**: Designed and implemented a custom Kubernetes operator to synchronize VLAN and virtual machine assets into NetBox, establishing a single source of truth for infrastructure inventory.
-- **Federated Observability**: Architected migration from Prometheus/Grafana stack to SUSE Observability (StackState) for federated multi-cluster observability, cutting troubleshooting time by 25%.
-- **Cloud Evolution**: Led cloud architecture evolution across AWS, GCP, and Azure for enterprise migrations, aligning Cloud Landing Zone (CLZ) design with strategic requirements, acting as advisor to internal customers.
+- **Infrastructure Automation**: Designed and implemented a Kubernetes operator to orchestrate large-scale virtual machine migrations from KVM to Harvester, enabling the migration of 100+ VMs.
 
-*Stack: Kubernetes, Rancher, Cluster API, KubeVirt, GPU (NVIDIA MIG/vGPU), vLLM, OpenTelemetry, Prometheus, Grafana, Terraform, GitOps (ArgoCD/Flux), AWS/GCP/Azure*
+*Stack: Kubernetes, Rancher, Harvester, KubeVirt, GPUs, vLLM, OpenTelemetry, Prometheus, Grafana, Terraform, GitOps, Go*
 
 ---
 
 ### Ericsson
-**DevOps Engineer Team Lead** · Pagani, Italy · *Sep 2023 – Dec 2024*
+**DevOps Engineer (Team Lead)** · Pagani, Italy · *Sep 2023 – Dec 2024*
 
-- **Self-Service Platform**: Led team of 5 engineers in designing Internal Developer Portal (IDP) based on Spotify Backstage, improving developer efficiency by 25% through self-services. Evangelized portal usage and adoption of best practices.
+- **Self-Service Platform**: Led a team of 5 delivering a company-wide Internal Developer Portal based on Spotify Backstage.
 
 **DevOps Engineer** · *Jun 2022 – Sep 2023*
 
-- **ML-driven Optimization**: Engineered an ML-driven solution for automated Kubernetes microservice performance optimization, reducing the engineering time required to fine-tune applications configuration from weeks to days.
+- **ML-driven Optimization**: Built an ML-driven k8s performance tuning tool, reducing optimization time from weeks to days.
 
 **Cloud Engineer** · *Mar 2021 – Jun 2022*
 
-- **Resource Efficiency**: Optimized Ericsson Licensing solution footprint by 25% deploying auto-scaling and fine-tuning resources configuration, leading to a throughput increase of 10%.
+- **Resource Efficiency**: Reduced footprint of multiple cloud-native microservices by 25% via autoscaling and resource tuning.
 
-*Stack: Kubernetes/OpenShift, Docker, Helm, Backstage, Gatekeeper (OPA), GitLab CI/Jenkins, Kafka, PostgreSQL/Cassandra, Go, Python, Java*
+*Stack: Kubernetes, OpenShift, Backstage, Performance Tuning, Distributed Systems, GitLab CI, Jenkins, Go, Python*
 
 ---
 
 ### Cisco
 **ML Engineer** · Vimercate, Italy · *Apr 2020 – Mar 2021*
 
-- Designed and implemented ML-based solution for optical devices troubleshooting, improving defect detection by a 2x factor.
+- **ML-based Troubleshooting**: Engineered ML-based optical device defect detection, improving accuracy from 45% to 89%.
 
-*Stack: Python, TensorFlow, Computer Vision*
+*Stack: Computer Vision, TensorFlow, TFLite, Python, C++*
 
 ---
 
 ## Education
 
-### Master Degree in Computer Engineering
-**Politecnico di Milano** · Milan, Italy · *2018 – 2020*
+### Master's Degree in Computer Engineering
+**Politecnico di Milano** · Milan, Italy · *2018 – 2021*
 
-### Bachelor Degree in Computer Engineering
+### Bachelor's Degree in Computer Engineering
 **Università degli Studi di Salerno** · Fisciano, Italy · *2014 – 2018*
 
 ---
 
 ## Skills
 
-### AI & GPU Infra
-NVIDIA MIG/vGPU, GPU-Operator, LLM-Ops, vLLM, Kueue/Slurm, TensorFlow, Pytorch, Computer Vision
+### AI Infra
+GPU Scheduling and Sharing (HAMi, MIG, KAI, Volcano, Kueue, Slurm), Model Serving (KServe, vLLM)
 
-### Observability
-OpenTelemetry (OTel), Prometheus, Grafana, Alertmanager, StackState, Root Cause Analysis (RCA)
+### Site Reliability
+eBPF, OpenTelemetry, Prometheus, Grafana, SLIs/SLOs, Incident Response, Capacity Planning
 
-### Reliability
-SLIs/SLOs, alerting strategy, runbooks, incident response, postmortems, capacity planning
-
-### Cloud Native
-Kubernetes, Helm, Docker, GitOps (ArgoCD, Flux), Terraform, GCP, AWS, Azure
+### Platform Tooling
+Kubernetes, Helm, Docker, KubeVirt, Cluster API, GitOps, Terraform, GCP, AWS
 
 ### Development
-Go, Python, Java, Rust, K8s Operators, Event-Driven Architecture, Linux
-
+Go, Python, Java, Rust, Kubernetes Operators, Event-Driven Architecture, Linux
